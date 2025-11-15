@@ -462,7 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff5744bfc79bb841a9f2f6536930938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Transform4D
-  mesh4D: {fileID: 0}
+  mesh4D: {fileID: 11400000, guid: 585f547c2949dde4b88e19d3074634e6, type: 2}
   Rotation:
     XY: 0
     YZ: 0
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeSphereMorph
   morphAsset: {fileID: 11400000, guid: d53d56b10758d42448c29562f2481385, type: 2}
-  morphFactor: 0.45
+  morphFactor: 0.591
   radius: 1
 --- !u!114 &2129399269
 MonoBehaviour:
@@ -550,12 +550,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Transform4D
   mesh4D: {fileID: 11400000, guid: d53d56b10758d42448c29562f2481385, type: 2}
   Rotation:
-    XY: -1
-    YZ: 0
-    XZ: 0
-    XW: 7
-    YW: 162
-    ZW: 180
+    XY: 41.7
+    YZ: 22
+    XZ: 21.1
+    XW: 15
+    YW: 58
+    ZW: 33.8
   Position: {x: 0, y: 0, z: -0.46, w: -1.59}
   Scale: {x: 1, y: 1, z: 1, w: 1}
 --- !u!4 &2129399270

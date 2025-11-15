@@ -11,7 +11,7 @@ public class CubeSphereMorph : MonoBehaviour
 	{
 		if (morphAsset != null)
 		{
-			Mesh4D.CreateCubeSphereMorph(morphAsset, radius: 1f, resolution: 5, t: morphFactor);
+			Cube4DInitializer.CreateCubeSphereMorph(morphAsset, radius: 1f, resolution: 5, t: morphFactor);
 		}
 	}
 
