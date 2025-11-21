@@ -2,52 +2,38 @@ using MIConvexHull;
 using Unity.Collections;
 using UnityEngine;
 
-public class Vertex : IVertex
-{
-	public double[] Position { get; }
-
-	public Vector3 position; // For Unity mesh construction
-
-	public Vertex(Vector4 v)
-	{
-		Position = new double[] { v.x, v.y, v.z };
-		position = new Vector3(v.x, v.y, v.z);
-	}
-}
-
-
 [ExecuteInEditMode]
 public class Transform4D : MonoBehaviour
 {
 	[Header("Mesh4D")]
 	public Mesh4D mesh4D;   // drag your Cube4D.asset here in the Inspector
 	[ReadOnly]
-	private Vector4[] vertices;   // working copy after transforms
+	public Vector4[] vertices;   // working copy after transforms
 
 	[Header("Transform4D")]
-    public Euler4 Rotation;
+	public Euler4 Rotation;
 	public Vector4 Position;
 	public Vector4 Scale = Vector4.one;
 
 	[Header("Rotation")]
 	[ReadOnly]
-    private Matrix4x4 RotationMatrix;
+	private Matrix4x4 RotationMatrix;
 
-    void Start()
-    {
-        // No mesh!
-        if (mesh4D == null)
-            return;
+	void Start()
+	{
+		// No mesh!
+		if (mesh4D == null)
+			return;
 
-        // Instantiates the vertices
-        vertices = new Vector4[mesh4D.Vertices.Length];
+		// Instantiates the vertices
+		vertices = new Vector4[mesh4D.Vertices.Length];
 
-        // Updates the mesh
-        UpdateRotationMatrix();
-        UpdateVertices();
-    }
+		// Updates the mesh
+		UpdateRotationMatrix();
+		UpdateVertices();
+	}
 
-    private void Update()
+	private void Update()
 	{
 		UpdateRotationMatrix();
 		UpdateVertices();
@@ -71,41 +57,22 @@ public class Transform4D : MonoBehaviour
 			.RotateZW(Rotation.ZW * Mathf.Deg2Rad);
 	}
 
-    private Vector4 Transform(Vector4 v)
-    {
-        v = RotationMatrix * v;
-
-        v.x *= Scale.x;
-        v.y *= Scale.y;
-        v.z *= Scale.z;
-        v.w *= Scale.w;
-
-        v += Position;
-
-        return v;
-    }
-
-    private void OnDrawGizmos()
+	private Vector4 Transform(Vector4 v)
 	{
-		if (mesh4D == null || mesh4D.Vertices == null || mesh4D.Edges == null) return;
+		v = RotationMatrix * v;
 
-		UpdateRotationMatrix();
-		UpdateVertices();
+		v.x *= Scale.x;
+		v.y *= Scale.y;
+		v.z *= Scale.z;
+		v.w *= Scale.w;
 
-		if (vertices == null) return;
+		v += Position;
 
-		Gizmos.color = Color.green;
+		return v;
+	}
 
-		foreach (var edge in mesh4D.Edges)
-		{
-			// double check indices are in range
-			if (edge.Index0 < vertices.Length && edge.Index1 < vertices.Length)
-			{
-				Vector3 p0 = new Vector3(vertices[edge.Index0].x, vertices[edge.Index0].y, vertices[edge.Index0].z);
-				Vector3 p1 = new Vector3(vertices[edge.Index1].x, vertices[edge.Index1].y, vertices[edge.Index1].z);
-
-				Gizmos.DrawLine(p0, p1);
-			}
-		}
+    // Projects a 4D point to 3D space by dropping the W component
+    public Vector3 ProjectTo3D(Vector4 v) {
+		return v;
 	}
 }

@@ -1,65 +1,34 @@
-﻿using MIConvexHull;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Cube4DInitializer : MonoBehaviour
 {
-	public Mesh4D cube4DAsset;
+	public Mesh4D mesh;
 
-	[ContextMenu("Init Cube4D")]
-	private void Init()
+	[ContextMenu("Create Cube4D")]
+	private void CreateCube4()
 	{
-		if (cube4DAsset != null)
-		{
-			CreateCube4(cube4DAsset, -1, 1, -1, 1, -1, 1, -1, 1);
-			Debug.Log("Initialized Cube4D with tesseract geometry!");
-		}
+		CreateCube4(mesh, 1, 1, -1, 1, -1, 1, -1, 1);
+		Debug.Log("Initialized Cube4D with tesseract geometry!");
 	}
 
-	public Mesh4D convexHull;
-
-	[ContextMenu("Create Convex Hull")]
-	private void CreateConvexHull()
-	{
-		if (convexHull != null)
-		{
-			var points = new Vector4[]
-			{
-				new Vector4(1,1,1,1),
-				new Vector4(1,1,-1,1),
-				new Vector4(1,-1,1,1),
-				new Vector4(1,-1,-1,1),
-			};
-			ConstructConvexHull(convexHull, points);
-			Debug.Log("Constructed Convex Hull in 4D!");
-		}
-	}
-
-	public Mesh4D tesseract;
 	[ContextMenu("Create Tesseract")]
 	private void CreateTesseract()
 	{
-		if (tesseract != null)
-		{
-			CreateTesseract(tesseract, -1, 1, -1, 1, -1, 1, -1, 1);
-			Debug.Log("Created Tesseract in 4D!");
-		}
+		CreateTesseract(mesh, -1, 1, -1, 1, -1, 1, -1, 1);
+		Debug.Log("Created Tesseract in 4D!");
 	}
-
-	public Mesh4D sphere4D;
 
 	[ContextMenu("Create Sphere4D")]
 	private void CreateSphere4D()
 	{
-		if (sphere4D != null)
-		{
-			CreateSphere4(sphere4D, radius: 1f, resolution: 6);
-			Debug.Log("Created Sphere4D in 4D!");
-		}
+		CreateSphere4(mesh, radius: 1f, resolution: 6);
+		Debug.Log("Created Sphere4D in 4D!");
 	}
 
-    public static void CreateCube4(Mesh4D mesh,
+    public static void CreateCube4(
+        Mesh4D mesh,
         float x0, float x1,
         float y0, float y1,
         float z0, float z1,
@@ -145,50 +114,6 @@ public class Cube4DInitializer : MonoBehaviour
         mesh.Edges = edges;
     }
 
-
-    public static void ConstructConvexHull(Mesh4D mesh, IList<Vector4> vertices)
-    {
-        // Convert Vector4 to Vertex
-        Vertex[] vertexObjs = vertices.Select(v => new Vertex(v)).ToArray();
-
-        // Compute convex hull
-        var hull = ConvexHull.Create<Vertex, DefaultConvexFace<Vertex>>(vertexObjs);
-
-        if (hull.Outcome != ConvexHullCreationResultOutcome.Success)
-        {
-            Debug.LogError($"Convex hull creation failed: {hull.Outcome}");
-            return;
-        }
-        // Weld vertices: collect unique vertices and assign indices
-        var vertexDict = new Dictionary<Vertex, int>();
-        var uniqueVertices = new List<Vector4>();
-
-        int idx = 0;
-        foreach (var v in hull.Result.Points)
-        {
-            vertexDict[v] = idx++;
-            uniqueVertices.Add(v.ToVector4());
-        }
-
-        // Extract edges from faces, avoiding duplicates
-        var edgeSet = new HashSet<(int, int)>();
-        foreach (var face in hull.Result.Faces)
-        {
-            var indices = face.Vertices.Select(v => vertexDict[v]).ToArray();
-            int count = indices.Length;
-            for (int i = 0; i < count; i++)
-            {
-                int a = indices[i];
-                int b = indices[(i + 1) % count];
-                var edge = a < b ? (a, b) : (b, a); // undirected edge
-                edgeSet.Add(edge);
-            }
-        }
-
-        // Assign to mesh
-        mesh.Vertices = uniqueVertices.ToArray();
-        mesh.Edges = edgeSet.Select(e => new Edge(e.Item1, e.Item2)).ToArray();
-    }
     public static void CreateTesseract(Mesh4D mesh,
         float x0, float x1,
         float y0, float y1,
