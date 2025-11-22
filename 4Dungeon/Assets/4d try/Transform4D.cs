@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using MIConvexHull;
 using Unity.Collections;
 using UnityEngine;
@@ -6,6 +8,7 @@ using UnityEngine;
 public class Transform4D : MonoBehaviour
 {
 	[Header("Mesh4D")]
+	
 	public Mesh4D mesh4D;   // drag your Cube4D.asset here in the Inspector
 	[ReadOnly]
 	public Vector4[] vertices;   // working copy after transforms
@@ -14,29 +17,31 @@ public class Transform4D : MonoBehaviour
 	public Euler4 Rotation;
 	public Vector4 Position;
 	public Vector4 Scale = Vector4.one;
-
 	[Header("Rotation")]
 	[ReadOnly]
 	private Matrix4x4 RotationMatrix;
 
 	void Start()
 	{
-		// No mesh!
-		if (mesh4D == null)
-			return;
+		if (mesh4D != null)
+		{
+			// Instantiates the vertices
+			vertices = new Vector4[mesh4D.Vertices.Length];
 
-		// Instantiates the vertices
-		vertices = new Vector4[mesh4D.Vertices.Length];
+			// Updates the mesh
+			UpdateRotationMatrix();
+			UpdateVertices();
+		}
 
-		// Updates the mesh
-		UpdateRotationMatrix();
-		UpdateVertices();
 	}
 
 	private void Update()
 	{
-		UpdateRotationMatrix();
-		UpdateVertices();
+		if (mesh4D != null)
+		{
+			UpdateRotationMatrix();
+			UpdateVertices();
+		}
 	}
 
 	private void UpdateVertices()
