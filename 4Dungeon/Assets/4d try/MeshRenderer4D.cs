@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -18,9 +19,26 @@ public class MeshRenderer4D : MonoBehaviour
     public bool debug3d = false;
     public bool debug4d = false;
 
+    void Start()
+    {
+        if (transform4d == null)
+        {
+            var trans = gameObject.GetComponent<Transform4D>();
+            if (trans != null) this.transform4d = trans;
+        }
+        if (meshFilter == null)
+        {
+            var filter = gameObject.GetComponent<MeshFilter>();
+            if (filter != null) this.meshFilter = filter;
+        }
+    }
+
     private void Update()
     {
-        Intersect();
+        if (transform4d.mesh4D != null)
+        {
+            Intersect();
+        }
     }
 
     public void Intersect()
