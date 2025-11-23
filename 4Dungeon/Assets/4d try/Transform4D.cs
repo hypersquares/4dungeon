@@ -1,6 +1,4 @@
 using System;
-using System.Threading.Tasks;
-using MIConvexHull;
 using Unity.Collections;
 using UnityEngine;
 
@@ -23,6 +21,14 @@ public class Transform4D : MonoBehaviour
 
 	void Start()
 	{
+		RefreshMesh();
+	}
+
+	/// <summary>
+	/// Reinitializes the vertices array and updates transforms. Call this when mesh4D changes.
+	/// </summary>
+	public void RefreshMesh()
+	{
 		if (mesh4D != null)
 		{
 			// Instantiates the vertices
@@ -32,7 +38,6 @@ public class Transform4D : MonoBehaviour
 			UpdateRotationMatrix();
 			UpdateVertices();
 		}
-
 	}
 
 	private void Update()
@@ -46,8 +51,7 @@ public class Transform4D : MonoBehaviour
 
 	private void UpdateVertices()
 	{
-		for (int i = 0; i < mesh4D.Vertices.Length; i++)
-			vertices[i] = Transform(mesh4D.Vertices[i]);
+		vertices = Transform(mesh4D.Vertices);
 	}
 
 	private void UpdateRotationMatrix()
@@ -74,6 +78,15 @@ public class Transform4D : MonoBehaviour
 		v += Position;
 
 		return v;
+	}
+
+	private Vector4[] Transform(Vector4[] v)
+	{
+		for (int i = 0; i < v.Length; i++)
+		{
+			v[i] = Transform(v[i]);
+		}
+		return v; 
 	}
 
     // Projects a 4D point to 3D space by dropping the W component

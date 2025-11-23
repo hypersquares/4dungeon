@@ -28,6 +28,10 @@ public class MeshRenderer4D : MonoBehaviour
                 this.transform4D = trans;
                 // foreach (Edge e in transform4D.mesh4D.Edges)
                     // Debug.Log(e);
+            } else
+            {
+                gameObject.AddComponent<Transform4D>();
+                this.transform4D = trans;
             }
         }
         if (meshFilter == null)
@@ -43,6 +47,11 @@ public class MeshRenderer4D : MonoBehaviour
         {
             Intersect();
         }
+    }
+
+    public void SetMesh(Mesh4D m)
+    {
+        if (transform4D != null) transform4D.mesh4D = m;
     }
 
     public void Intersect()
