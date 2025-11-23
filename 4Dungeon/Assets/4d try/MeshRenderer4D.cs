@@ -8,8 +8,8 @@ public class MeshRenderer4D : MonoBehaviour
     public Transform4D transform4D;
 
     [Header("Hyperplane (for slicing)")]
-    public Vector4 planePoint;
-    public Vector4 planeNorm = new Vector4(0, 0, 0, 1);
+    [SerializeField] Plane4D plane;
+    private float d = 0f; //The shift along the normal
 
     [Header("Mesh")]
     public MeshFilter meshFilter;
@@ -54,10 +54,11 @@ public class MeshRenderer4D : MonoBehaviour
         if (transform4D != null) transform4D.mesh4D = m;
     }
 
+
     public void Intersect()
     {
         Mesh4D mesh4D = transform4D.mesh4D;
-        Vector4 norm = planeNorm.normalized;
+        Vector4 norm = plane.normal;
         List<Vector4> vertices = new List<Vector4>();
 
         for (int i = 0; i < mesh4D.Edges.Length; i++)
@@ -125,8 +126,8 @@ public class MeshRenderer4D : MonoBehaviour
     // Returns number of intersection points
     private int Intersection(List<Vector4> vertices, Vector4 v0, Vector4 v1)
     {
-        float d0 = Vector4.Dot(planeNorm.normalized, v0 - planePoint);
-        float d1 = Vector4.Dot(planeNorm.normalized, v1 - planePoint);
+        float d0 = Vector4.Dot(plane.normal, v0 - plane.point);
+        float d1 = Vector4.Dot(plane.normal, v1 - plane.point);
 
         // Both points on the same side of the plane
         if (d0 * d1 > 0)
