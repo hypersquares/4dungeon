@@ -74,7 +74,7 @@ public class Transform4dEditor : Editor
         {
             m_Transform4D.Scale = Vector4.one;
         }
-
+        m_Transform4D.RefreshMesh();
         EditorGUILayout.Space();
         if (GUILayout.Button("Refresh Mesh Pipeline"))
         {
