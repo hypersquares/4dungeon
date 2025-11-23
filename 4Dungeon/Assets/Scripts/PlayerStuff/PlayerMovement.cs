@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public InputAction moveAction;
+    public InputAction jumpAction;
+
     [Header("Movement")]
     public float moveSpeed;
 
