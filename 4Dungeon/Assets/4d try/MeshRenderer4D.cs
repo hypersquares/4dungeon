@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class MeshRenderer4D : MonoBehaviour
 {
-    public Transform4D transform4d;
+    public Transform4D transform4D;
 
     [Header("Hyperplane (for slicing)")]
     public Vector4 planePoint;
@@ -21,10 +21,14 @@ public class MeshRenderer4D : MonoBehaviour
 
     void Start()
     {
-        if (transform4d == null)
+        if (transform4D == null)
         {
             var trans = gameObject.GetComponent<Transform4D>();
-            if (trans != null) this.transform4d = trans;
+            if (trans != null) {
+                this.transform4D = trans;
+                // foreach (Edge e in transform4D.mesh4D.Edges)
+                    // Debug.Log(e);
+            }
         }
         if (meshFilter == null)
         {
@@ -35,7 +39,7 @@ public class MeshRenderer4D : MonoBehaviour
 
     private void Update()
     {
-        if (transform4d.mesh4D != null)
+        if (transform4D.mesh4D != null)
         {
             Intersect();
         }
@@ -43,15 +47,15 @@ public class MeshRenderer4D : MonoBehaviour
 
     public void Intersect()
     {
-        Mesh4D mesh4D = transform4d.mesh4D;
+        Mesh4D mesh4D = transform4D.mesh4D;
         Vector4 norm = planeNorm.normalized;
         List<Vector4> vertices = new List<Vector4>();
 
         for (int i = 0; i < mesh4D.Edges.Length; i++)
         {
             Edge edge = mesh4D.Edges[i];
-            Vector4 v0 = transform4d.vertices[edge.Index0];
-            Vector4 v1 = transform4d.vertices[edge.Index1];
+            Vector4 v0 = transform4D.vertices[edge.Index0];
+            Vector4 v1 = transform4D.vertices[edge.Index1];
             Intersection(vertices, v0, v1);
         }
 
@@ -64,7 +68,7 @@ public class MeshRenderer4D : MonoBehaviour
         if (vertices.Count > 3)
         {
             // Normal case: convex polygon with more than 3 vertices
-            mesh3 = ConvexHullWrapper.ConstructMesh(vertices, transform4d);
+            mesh3 = ConvexHullWrapper.ConstructMesh(vertices, transform4D);
             meshFilter.mesh = mesh3;
         } else if (vertices.Count == 3)
         {
@@ -72,7 +76,7 @@ public class MeshRenderer4D : MonoBehaviour
             mesh3 = new Mesh();
             for (int i = 0; i < 3; i++)
             {
-                mesh3.vertices[i] = transform4d.ProjectTo3D(vertices[i]);
+                mesh3.vertices[i] = transform4D.ProjectTo3D(vertices[i]);
             }
             mesh3.triangles = new int[] { 0, 1, 2 };
             mesh3.RecalculateNormals();
@@ -102,9 +106,9 @@ public class MeshRenderer4D : MonoBehaviour
             for (int i = 0; i < mesh4D.Edges.Length; i++)
             {
                 Edge edge = mesh4D.Edges[i];
-                Vector4 v0 = transform4d.vertices[edge.Index0];
-                Vector4 v1 = transform4d.vertices[edge.Index1];
-                Debug.DrawLine(transform4d.ProjectTo3D(v0), transform4d.ProjectTo3D(v1), Color.green);
+                Vector4 v0 = transform4D.vertices[edge.Index0];
+                Vector4 v1 = transform4D.vertices[edge.Index1];
+                Debug.DrawLine(transform4D.ProjectTo3D(v0), transform4D.ProjectTo3D(v1), Color.green);
             }
         }
     }
