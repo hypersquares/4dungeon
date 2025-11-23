@@ -15,6 +15,11 @@ public class MeshCompositor4D : MonoBehaviour
     [SerializeField] private Transform4D m_transform;
     [SerializeField] private Mesh m_mesh0;
     [SerializeField] private Mesh m_mesh1;
+    [SerializeField] private bool m_ConvergeToPoint;
+    [SerializeField] private bool m_UseCustomPointOfConvergence;
+    [SerializeField] private Vector4 m_PointOfConvergence = new Vector4 (0, 0, 0, 1);
+
+    [SerializeField] private Transform4D m_TransformEnd; //unused currently
 
     void Start()
     {
@@ -35,13 +40,52 @@ public class MeshCompositor4D : MonoBehaviour
             }
             this.m_transform = trans;
         }
-        if (m_mesh0 != null && m_mesh1 != null)
+        if (!m_ConvergeToPoint && m_mesh0 != null && m_mesh1 != null)
         {
-            Mesh4D m = CompositeMeshes(m_mesh0, m_mesh1);
-            m_transform.mesh4D = m;
-        }
+            m_transform.mesh4D = CompositeMeshes(m_mesh0, m_mesh1);
+        } else if (m_ConvergeToPoint && m_mesh0 != null)
+        {
+            if (m_UseCustomPointOfConvergence) m_transform.mesh4D = CompositeMeshToPoint(m_mesh0, m_PointOfConvergence);
+            else
+            {
+                Assert.NotNull(m_PointOfConvergence);
+                Debug.Log("gothere");
+                m_transform.mesh4D = CompositeMeshToPoint(m_mesh0, null);
+            } 
+            }
     } 
 
+    public static Mesh4D CompositeMeshToPoint(Mesh mesh0, Vector4? convergencePointOpt)
+    {
+        Vector4 cP;
+        List<Vector3> m0v = new();
+        mesh0.GetVertices(m0v);
+        //Average verts to find centerpoint of object (??)
+        Vector3 avg = new();
+        List<Vector4> allVerts = new();
+        foreach (Vector3 vert in m0v)
+        {
+                avg += vert;
+                allVerts.Add(new Vector4(vert.x, vert.y, vert.z, 0));
+        }
+        avg /= m0v.Count;
+        if (!convergencePointOpt.HasValue) cP = new Vector4(avg.x, avg.y, avg.z, 1);
+        else cP = convergencePointOpt.Value;
+        
+        allVerts.Add(new Vector4(cP.x, cP.y, cP.z, cP.w));
+        Edge[] edges0 = GetMeshEdges(mesh0);
+        Edge[] edgesToPoint = new Edge[edges0.Length + mesh0.vertices.Length];
+        for (int i = 0; i < mesh0.vertices.Length; i++)
+        {
+            edgesToPoint[edges0.Length + i] = new Edge(i, mesh0.vertices.Length);
+        }
+        Mesh4D m4D = ScriptableObject.CreateInstance<Mesh4D>();
+        m4D.Vertices = allVerts.ToArray();
+        m4D.Edges = edgesToPoint;
+        return m4D;
+
+        
+    }
     public static Mesh4D CompositeMeshes(Mesh mesh0, Mesh mesh1)
 {
     Assert.AreEqual(mesh0.vertices.Length, mesh1.vertices.Length);
