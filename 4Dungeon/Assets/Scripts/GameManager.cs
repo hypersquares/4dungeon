@@ -14,17 +14,17 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] private GameState currentState = GameState.Playing;
 
-	public int w = 0;
+	public float w = 0f;
 
-	public int minW = -10;
-	public int maxW = 10;
+	public float minW = -10f;
+	public float maxW = 10f;
 
 
-	public static event Action<int> OnWChanged;
+	public static event Action<float> OnWChanged;
 
 	public static event Action<GameState> OnGameStateChanged;
 
-	public int W => w;
+	public float W => w;
 
 	public GameState CurrentState => currentState;
 
@@ -41,37 +41,15 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void OnValidate()
+	public void SetW(float newValue)
 	{
-		w = Mathf.Clamp(w, minW, maxW);
-
-		if (Application.isPlaying)
-		{
-			OnWChanged?.Invoke(w);
-		}
-	}
-
-
-	public void SetW(int newValue)
-	{
-		int clamped = Mathf.Clamp(newValue, minW, maxW);
+        float clamped = Mathf.Clamp(newValue, minW, maxW);
 
 		if (w != clamped)
 		{
 			w = clamped;
-			OnWChanged?.Invoke(w);
+            OnWChanged?.Invoke(w);
 		}
-	}
-
-
-	public void IncrementW(int amount = 1)
-	{
-		SetW(w + amount);
-	}
-
-	public void DecrementW(int amount = 1)
-	{
-		SetW(w - amount);
 	}
 
 	public void ChangeGameState(GameState newState)

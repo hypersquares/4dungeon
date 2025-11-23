@@ -9,7 +9,7 @@ public class Cube4DInitializer : MonoBehaviour
 	[ContextMenu("Create Cube4D")]
 	private void CreateCube4()
 	{
-		CreateCube4(mesh, 1, 1, -1, 1, -1, 1, -1, 1);
+		CreateCube4(mesh, -1, 1, -1, 1, -1, 1, -1, 1);
 		Debug.Log("Initialized Cube4D with tesseract geometry!");
 	}
 

@@ -7,9 +7,9 @@ public class MeshRenderer4D : MonoBehaviour
 {
     public Transform4D transform4d;
 
-    [Header("Hyperplane (for slicing)")]
-    public Vector4 planePoint;
-    public Vector4 planeNorm = new Vector4(0, 0, 0, 1);
+    //[Header("Hyperplane (for slicing)")]
+    //public Vector4 planePoint = new Vector4(0, 0, 0, 0);
+    private Vector4 planeNorm = new Vector4(0, 0, 0, 1);
 
     [Header("Mesh")]
     public MeshFilter meshFilter;
@@ -31,20 +31,33 @@ public class MeshRenderer4D : MonoBehaviour
             var filter = gameObject.GetComponent<MeshFilter>();
             if (filter != null) this.meshFilter = filter;
         }
+        Intersect();
     }
 
-    private void Update()
+    //private void OnEnable()
+    //{
+    //    GameManager.OnWChanged += (_) => Intersect();
+    //}
+
+    //private void OnDisable()
+    //{
+    //    GameManager.OnWChanged -= (_) => Intersect();
+    //}
+
+    void Update()
     {
-        if (transform4d.mesh4D != null)
-        {
-            Intersect();
-        }
+        Intersect();
     }
 
     public void Intersect()
     {
+        if (transform4d.mesh4D == null)
+        {
+            Debug.LogError("No Mesh4D assigned to Transform4D");
+            return;
+        }
+
         Mesh4D mesh4D = transform4d.mesh4D;
-        Vector4 norm = planeNorm.normalized;
         List<Vector4> vertices = new List<Vector4>();
 
         for (int i = 0; i < mesh4D.Edges.Length; i++)
@@ -79,10 +92,17 @@ public class MeshRenderer4D : MonoBehaviour
             meshFilter.mesh = mesh3;
         } else
         {
-            Debug.Log("Less than 3 intersection points");
+            //Debug.Log("Less than 3 intersection points");
             mesh3 = null;
             meshFilter.mesh = null;
         }
+
+        // TODO: Maybe move this to a separate file
+        MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>();
+        meshCollider.sharedMesh = null;
+        meshCollider.sharedMesh = mesh3;
+        meshCollider.convex = true;
+
 
         if (debug3d)
         {
@@ -112,8 +132,9 @@ public class MeshRenderer4D : MonoBehaviour
     // Returns number of intersection points
     private int Intersection(List<Vector4> vertices, Vector4 v0, Vector4 v1)
     {
-        float d0 = Vector4.Dot(planeNorm.normalized, v0 - planePoint);
-        float d1 = Vector4.Dot(planeNorm.normalized, v1 - planePoint);
+        Vector4 planePoint = new Vector4(0, 0, 0, GameManager.Instance.W);
+        float d0 = Vector4.Dot(planeNorm, v0 - planePoint);
+        float d1 = Vector4.Dot(planeNorm, v1 - planePoint);
 
         // Both points on the same side of the plane
         if (d0 * d1 > 0)

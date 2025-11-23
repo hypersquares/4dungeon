@@ -12,8 +12,13 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     bool canJump;
 
+    public Vector3 spawnPoint = new Vector3(0, 5, 0);
+
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode posWKey = KeyCode.E;
+    public KeyCode negWKey = KeyCode.Q;
+    public KeyCode resetKey = KeyCode.R;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -65,6 +70,25 @@ public class PlayerMovement : MonoBehaviour
             canJump = false;
             Jump();
             Invoke(nameof(ResetJump), jumpCooldown);
+        }
+
+        // TODO: Maybe move this to MovePlayer or add physics
+        if (Input.GetKey(posWKey))
+        {
+            GameManager.Instance.SetW(GameManager.Instance.W + moveSpeed * Time.deltaTime);
+        }
+
+        if (Input.GetKey(negWKey))
+        {
+            GameManager.Instance.SetW(GameManager.Instance.W - moveSpeed * Time.deltaTime);
+        }
+        
+        if (Input.GetKeyDown(resetKey))
+        {
+            transform.position = spawnPoint;
+            rb.ResetInertiaTensor();
+            rb.linearVelocity = Vector3.zero;
+            GameManager.Instance.SetW(0);
         }
     }
 
