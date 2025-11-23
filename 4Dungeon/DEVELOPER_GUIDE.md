@@ -65,7 +65,7 @@ Transform4D uses 6 rotation planes via `Euler4`:
 
 - **Private fields:** `m_PascalCase`
 - **Public properties:** `camelCase`
-- **Use `[SerializeField]`**, never public fields
+- **Use `[SerializeField]`** for fields you would like to edit in the inspector, but keep private.
 - See `CLAUDE.md` for full guidelines
 
 ## Key Files

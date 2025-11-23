@@ -8,7 +8,7 @@ public class MeshRenderer4D : MonoBehaviour
     public Transform4D transform4D;
 
     [Header("Hyperplane (for slicing)")]
-    [SerializeField] Plane4D plane;
+    [SerializeField] private Plane4D plane;
     private float d = 0f; //The shift along the normal
 
     [Header("Mesh")]
