@@ -11,4 +11,9 @@ public struct Edge
 		Index0 = index0;
 		Index1 = index1;
 	}
+
+    public override string ToString()
+    {
+        return $"Edge({Index0}, {Index1})";
+    }
 }
