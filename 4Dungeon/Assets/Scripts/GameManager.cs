@@ -31,10 +31,10 @@ public class GameManager : MonoBehaviour
 	{
 		if (s_Instance == null || s_Instance == this)
 		{
-			Instance = this;
-            #if !UNITY_EDITOR
+			s_Instance = this;
+#if !UNITY_EDITOR
 			DontDestroyOnLoad(gameObject);
-            #endif
+#endif
 		}
 		else
 		{
