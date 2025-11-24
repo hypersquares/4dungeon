@@ -7,20 +7,34 @@ public class MeshCompositor4DEditor : Editor
     private MeshCompositor4D m_Compositor;
     private SerializedProperty m_Mesh0Property;
     private SerializedProperty m_Mesh1Property;
-    private SerializedProperty m_TransformProperty;
+    private SerializedProperty m_MeshRenderer4DProperty;
     private SerializedProperty m_ConvergeToPointProperty;
     private SerializedProperty m_UseCustomPointOfConvergenceProperty;
     private SerializedProperty m_PointOfConvergenceProperty;
+    private SerializedProperty m_TransformStartProperty;
+    private SerializedProperty m_TransformEndProperty;
+
+    // Cached transform values for change detection
+    private Transform4D m_CachedTransformStart;
+    private Transform4D m_CachedTransformEnd;
+    private Euler4 m_CachedStartRotation;
+    private Vector4 m_CachedStartPosition;
+    private Vector4 m_CachedStartScale;
+    private Euler4 m_CachedEndRotation;
+    private Vector4 m_CachedEndPosition;
+    private Vector4 m_CachedEndScale;
 
     private void OnEnable()
     {
         m_Compositor = (MeshCompositor4D)target;
-        m_Mesh0Property = serializedObject.FindProperty("m_mesh0");
-        m_Mesh1Property = serializedObject.FindProperty("m_mesh1");
-        m_TransformProperty = serializedObject.FindProperty("m_transform");
+        m_Mesh0Property = serializedObject.FindProperty("m_Mesh0");
+        m_Mesh1Property = serializedObject.FindProperty("m_Mesh1");
+        m_MeshRenderer4DProperty = serializedObject.FindProperty("m_MeshRenderer4D");
         m_ConvergeToPointProperty = serializedObject.FindProperty("m_ConvergeToPoint");
         m_UseCustomPointOfConvergenceProperty = serializedObject.FindProperty("m_UseCustomPointOfConvergence");
         m_PointOfConvergenceProperty = serializedObject.FindProperty("m_PointOfConvergence");
+        m_TransformStartProperty = serializedObject.FindProperty("m_TransformStart");
+        m_TransformEndProperty = serializedObject.FindProperty("m_TransformEnd");
     }
 
     public override void OnInspectorGUI()
@@ -44,24 +58,29 @@ public class MeshCompositor4DEditor : Editor
         }
 
         EditorGUILayout.PropertyField(m_Mesh0Property, new GUIContent("Mesh 0", "The first mesh for 4D composition (w=0)"));
+        EditorGUILayout.PropertyField(m_TransformStartProperty, new GUIContent("Transform Start", "Transform applied to Mesh 0 vertices"));
 
         if (!m_ConvergeToPointProperty.boolValue)
         {
             EditorGUILayout.PropertyField(m_Mesh1Property, new GUIContent("Mesh 1", "The second mesh for 4D composition (w=1)"));
+            EditorGUILayout.PropertyField(m_TransformEndProperty, new GUIContent("Transform End", "Transform applied to Mesh 1 vertices"));
         }
 
         bool meshesChanged = EditorGUI.EndChangeCheck();
 
-        // Draw the transform field (read-only display)
+        // Detect changes to the Transform4D components themselves
+        bool transformsChanged = DetectTransformChanges();
+
+        // Draw the MeshRenderer4D field (read-only display)
         EditorGUILayout.Space();
         EditorGUI.BeginDisabledGroup(true);
-        EditorGUILayout.PropertyField(m_TransformProperty);
+        EditorGUILayout.PropertyField(m_MeshRenderer4DProperty);
         EditorGUI.EndDisabledGroup();
 
         serializedObject.ApplyModifiedProperties();
 
         // Call CompositeMesh when required meshes are assigned and values changed
-        if (meshesChanged)
+        if (meshesChanged || transformsChanged)
         {
             bool convergeToPoint = m_ConvergeToPointProperty.boolValue;
             bool hasRequiredMeshes = m_Mesh0Property.objectReferenceValue != null &&
@@ -112,9 +131,8 @@ public class MeshCompositor4DEditor : Editor
         if (GUILayout.Button("Setup All 4D Components"))
         {
             Object4DSetup.SetupObject4D(m_Compositor.gameObject);
-            // Refresh our serialized properties
             serializedObject.Update();
-            m_TransformProperty = serializedObject.FindProperty("m_transform");
+            m_MeshRenderer4DProperty = serializedObject.FindProperty("m_MeshRenderer4D");
         }
     }
 
@@ -126,29 +144,95 @@ public class MeshCompositor4DEditor : Editor
         m_Compositor.CompositeMesh();
         EditorUtility.SetDirty(m_Compositor);
 
-        // Refresh Transform4D to reinitialize vertices array
-        Transform4D transform4D = m_TransformProperty.objectReferenceValue as Transform4D;
-        if (transform4D != null)
+        MeshRenderer4D renderer4D = m_MeshRenderer4DProperty.objectReferenceValue as MeshRenderer4D;
+        if (renderer4D == null)
         {
-            transform4D.RefreshMesh();
-            EditorUtility.SetDirty(transform4D);
+            renderer4D = m_Compositor.GetComponent<MeshRenderer4D>();
+        }
 
-            // Trigger MeshRenderer4D to re-slice
-            MeshRenderer4D renderer4D = m_Compositor.GetComponent<MeshRenderer4D>();
-            if (renderer4D != null)
+        if (renderer4D != null)
+        {
+            renderer4D.Intersect();
+            EditorUtility.SetDirty(renderer4D);
+
+            if (renderer4D.meshFilter != null)
             {
-                renderer4D.Intersect();
-                EditorUtility.SetDirty(renderer4D);
-
-                // Also mark the mesh filter dirty
-                if (renderer4D.meshFilter != null)
-                {
-                    EditorUtility.SetDirty(renderer4D.meshFilter);
-                }
+                EditorUtility.SetDirty(renderer4D.meshFilter);
             }
         }
 
-        // Force scene view to repaint
         SceneView.RepaintAll();
+    }
+
+    /// <summary>
+    /// Detects if the Transform4D components have changed since last frame.
+    /// </summary>
+    private bool DetectTransformChanges()
+    {
+        bool changed = false;
+
+        Transform4D transformStart = m_TransformStartProperty.objectReferenceValue as Transform4D;
+        Transform4D transformEnd = m_TransformEndProperty.objectReferenceValue as Transform4D;
+
+        // Check if transform references changed
+        if (transformStart != m_CachedTransformStart || transformEnd != m_CachedTransformEnd)
+        {
+            m_CachedTransformStart = transformStart;
+            m_CachedTransformEnd = transformEnd;
+            CacheTransformValues();
+            return true;
+        }
+
+        // Check start transform values
+        if (transformStart != null)
+        {
+            if (!m_CachedStartRotation.Equals(transformStart.Rotation) ||
+                m_CachedStartPosition != transformStart.Position ||
+                m_CachedStartScale != transformStart.Scale)
+            {
+                changed = true;
+            }
+        }
+
+        // Check end transform values
+        if (transformEnd != null)
+        {
+            if (!m_CachedEndRotation.Equals(transformEnd.Rotation) ||
+                m_CachedEndPosition != transformEnd.Position ||
+                m_CachedEndScale != transformEnd.Scale)
+            {
+                changed = true;
+            }
+        }
+
+        if (changed)
+        {
+            CacheTransformValues();
+        }
+
+        return changed;
+    }
+
+    /// <summary>
+    /// Caches current transform values for change detection.
+    /// </summary>
+    private void CacheTransformValues()
+    {
+        Transform4D transformStart = m_TransformStartProperty.objectReferenceValue as Transform4D;
+        Transform4D transformEnd = m_TransformEndProperty.objectReferenceValue as Transform4D;
+
+        if (transformStart != null)
+        {
+            m_CachedStartRotation = transformStart.Rotation;
+            m_CachedStartPosition = transformStart.Position;
+            m_CachedStartScale = transformStart.Scale;
+        }
+
+        if (transformEnd != null)
+        {
+            m_CachedEndRotation = transformEnd.Rotation;
+            m_CachedEndPosition = transformEnd.Position;
+            m_CachedEndScale = transformEnd.Scale;
+        }
     }
 }
