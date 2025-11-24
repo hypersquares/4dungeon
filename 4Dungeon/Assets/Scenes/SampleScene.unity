@@ -387,10 +387,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
   m_Mesh4D: {fileID: 0}
   m_Transform4D: {fileID: 0}
-  m_Plane:
-    m_Normal: {x: 0, y: 0, z: 0, w: 1}
-    m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0
   m_MeshFilter: {fileID: 0}
   m_Debug3D: 0
   m_Debug4D: 0
@@ -1052,6 +1048,159 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!114 &513822923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fde9aca120b9e5478940a29edaa86ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Mesh4D
+  Vertices:
+  - {x: 0.5, y: -0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: -0.5, z: 0.5, w: 0}
+  - {x: 0.5, y: 0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: 0.5, z: 0.5, w: 0}
+  - {x: 0.5, y: 0.5, z: -0.5, w: 0}
+  - {x: -0.5, y: 0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: -0.5, z: -0.5, w: 0}
+  - {x: -0.5, y: -0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: 0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: 0.5, z: 0.5, w: 0}
+  - {x: 0.5, y: 0.5, z: -0.5, w: 0}
+  - {x: -0.5, y: 0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: -0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: -0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: -0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: -0.5, z: -0.5, w: 0}
+  - {x: -0.5, y: -0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: 0.5, z: 0.5, w: 0}
+  - {x: -0.5, y: 0.5, z: -0.5, w: 0}
+  - {x: -0.5, y: -0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: -0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: 0.5, z: -0.5, w: 0}
+  - {x: 0.5, y: 0.5, z: 0.5, w: 0}
+  - {x: 0.5, y: -0.5, z: 0.5, w: 0}
+  - {x: 0, y: 0, z: 0, w: 1}
+  Edges:
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 0
+  - Index0: 0
+    Index1: 24
+  - Index0: 1
+    Index1: 24
+  - Index0: 2
+    Index1: 24
+  - Index0: 3
+    Index1: 24
+  - Index0: 4
+    Index1: 24
+  - Index0: 5
+    Index1: 24
+  - Index0: 6
+    Index1: 24
+  - Index0: 7
+    Index1: 24
+  - Index0: 8
+    Index1: 24
+  - Index0: 9
+    Index1: 24
+  - Index0: 10
+    Index1: 24
+  - Index0: 11
+    Index1: 24
+  - Index0: 12
+    Index1: 24
+  - Index0: 13
+    Index1: 24
+  - Index0: 14
+    Index1: 24
+  - Index0: 15
+    Index1: 24
+  - Index0: 16
+    Index1: 24
+  - Index0: 17
+    Index1: 24
+  - Index0: 18
+    Index1: 24
+  - Index0: 19
+    Index1: 24
+  - Index0: 20
+    Index1: 24
+  - Index0: 21
+    Index1: 24
+  - Index0: 22
+    Index1: 24
+  - Index0: 23
+    Index1: 24
 --- !u!1 &582879673
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,10 +1291,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
   m_Mesh4D: {fileID: 0}
   m_Transform4D: {fileID: 0}
-  m_Plane:
-    m_Normal: {x: 0, y: 0, z: 0, w: 1}
-    m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0
   m_MeshFilter: {fileID: 0}
   m_Debug3D: 0
   m_Debug4D: 0
@@ -2201,389 +2346,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1070785189
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  serializedVersion: 12
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 36
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 36
-    localAABB:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.15, y: 0.15, z: 0.15}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_BonesAABB: []
-  m_VariableBoneCountWeights:
-    m_Data: 
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 00000100020003000400050006000700080009000a000b000c000d000e000f0010001100120013001400150016001700180019001a001b001c001d001e001f002000210022002300
-  m_VertexData:
-    serializedVersion: 3
-    m_VertexCount: 36
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 864
-    _typelessdata: 9a99193e9a9919be9a9919be0000803f00000000000000009a99193e9a99193e9a99193e0000803f00000000000000009a99193e9a9919be9a99193e0000803f00000000000000009a99193e9a9919be9a99193e00000000000080bf000000009a9919be9a9919be9a99193e00000000000080bf000000009a99193e9a9919be9a9919be00000000000080bf000000009a99193e9a99193e9a99193e00000000000000000000803f9a9919be9a9919be9a99193e00000000000000000000803f9a99193e9a9919be9a99193e00000000000000000000803f9a9919be9a99193e9a9919be000000000000803f000000009a9919be9a99193e9a99193e000000000000803f000000009a99193e9a99193e9a99193e000000000000803f000000009a9919be9a9919be9a99193e000080bf00000000000000009a9919be9a99193e9a99193e000080bf00000000000000009a9919be9a99193e9a9919be000080bf00000000000000009a9919be9a9919be9a99193e00000000000000000000803f9a99193e9a99193e9a99193e00000000000000000000803f9a9919be9a99193e9a99193e00000000000000000000803f9a99193e9a9919be9a9919be0000000000000000000080bf9a9919be9a99193e9a9919be0000000000000000000080bf9a99193e9a99193e9a9919be0000000000000000000080bf9a99193e9a9919be9a9919be0000803f00000000000000009a99193e9a99193e9a9919be0000803f00000000000000009a99193e9a99193e9a99193e0000803f00000000000000009a99193e9a99193e9a99193e000000000000803f000000009a99193e9a99193e9a9919be000000000000803f000000009a9919be9a99193e9a9919be000000000000803f000000009a9919be9a99193e9a9919be0000000000000000000080bf9a99193e9a9919be9a9919be0000000000000000000080bf9a9919be9a9919be9a9919be0000000000000000000080bf9a9919be9a9919be9a9919be00000000000080bf000000009a99193e9a9919be9a9919be00000000000080bf000000009a9919be9a9919be9a99193e00000000000080bf000000009a9919be9a9919be9a99193e000080bf00000000000000009a9919be9a99193e9a9919be000080bf00000000000000009a9919be9a9919be9a9919be000080bf0000000000000000
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.15, y: 0.15, z: 0.15}
-  m_MeshUsageFlags: 0
-  m_CookingOptions: 30
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  'm_MeshMetrics[0]': 1
-  'm_MeshMetrics[1]': 1
-  m_MeshOptimizationFlags: 1
-  m_StreamData:
-    serializedVersion: 2
-    offset: 0
-    size: 0
-    path: 
-  m_MeshLodInfo:
-    serializedVersion: 2
-    m_LodSelectionCurve:
-      serializedVersion: 1
-      m_LodSlope: 0
-      m_LodBias: 0
-    m_NumLevels: 1
-    m_SubMeshes:
-    - serializedVersion: 2
-      m_Levels:
-      - serializedVersion: 1
-        m_IndexStart: 0
-        m_IndexCount: 0
---- !u!1 &1259480789
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1259480796}
-  - component: {fileID: 1259480795}
-  - component: {fileID: 1259480794}
-  - component: {fileID: 1259480793}
-  - component: {fileID: 1259480792}
-  - component: {fileID: 1259480791}
-  - component: {fileID: 1259480798}
-  - component: {fileID: 1259480797}
-  m_Layer: 0
-  m_Name: 4D Composite Object
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1259480791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 263527a0ba53c40be810b63a8054e002, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeshCompositor4D
-  m_MeshRenderer4D: {fileID: 1259480792}
-  m_Mesh0: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  m_Mesh1: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  m_ConvergeToPoint: 1
-  m_UseCustomPointOfConvergence: 0
-  m_PointOfConvergence: {x: 0, y: 0, z: 0, w: 1}
-  m_TransformStart: {fileID: 1259480798}
-  m_TransformEnd: {fileID: 1259480797}
-  m_DeprecatedTransform: {fileID: 0}
---- !u!114 &1259480792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d418d62a62798e46adc5495e5a82e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
-  m_Mesh4D: {fileID: 2120917573}
-  m_Transform4D: {fileID: 1259480793}
-  m_Plane:
-    m_Normal: {x: 0, y: 0, z: 0, w: 1}
-    m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0.7
-  m_MeshFilter: {fileID: 1259480795}
-  m_Debug3D: 0
-  m_Debug4D: 1
---- !u!114 &1259480793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ff5744bfc79bb841a9f2f6536930938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Transform4D
-  m_Label: 
-  Rotation:
-    XY: 0
-    YZ: 0
-    XZ: 0
-    XW: 0
-    YW: 0
-    ZW: 0
-  Position: {x: 0, y: 0, z: 0, w: 0}
-  Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
---- !u!23 &1259480794
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 5629084884208175553, guid: 78ab46ac61451441cbd1469bfcba4a03, type: 3}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1259480795
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Mesh: {fileID: 1070785189}
---- !u!4 &1259480796
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.035, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1259480797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ff5744bfc79bb841a9f2f6536930938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Transform4D
-  m_Label: End Transform
-  Rotation:
-    XY: 0
-    YZ: 0
-    XZ: 0
-    XW: 0
-    YW: 0
-    ZW: 0
-  Position: {x: 0, y: 0, z: 0, w: 0}
-  Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
---- !u!114 &1259480798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1259480789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ff5744bfc79bb841a9f2f6536930938, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Transform4D
-  m_Label: Start Transform
-  Rotation:
-    XY: 0
-    YZ: 0
-    XZ: 0
-    XW: 0
-    YW: 0
-    ZW: 0
-  Position: {x: 0, y: 0, z: 0, w: 0}
-  Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &1381459596
 GameObject:
   m_ObjectHideFlags: 0
@@ -2627,10 +2389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
   m_Mesh4D: {fileID: 0}
   m_Transform4D: {fileID: 0}
-  m_Plane:
-    m_Normal: {x: 0, y: 0, z: 0, w: 1}
-    m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0
   m_MeshFilter: {fileID: 0}
   m_Debug3D: 0
   m_Debug4D: 0
@@ -2799,10 +2557,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
   m_Mesh4D: {fileID: 743295218}
   m_Transform4D: {fileID: 1690073353}
-  m_Plane:
-    m_Normal: {x: 0, y: 0, z: 0, w: 1}
-    m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0.57
   m_MeshFilter: {fileID: 1690073355}
   m_Debug3D: 0
   m_Debug4D: 0
@@ -2946,6 +2700,183 @@ MonoBehaviour:
   Position: {x: 0, y: 0, z: 0, w: 1}
   Scale: {x: 1, y: 1, z: 1, w: 1}
   m_DeprecatedMesh4D: {fileID: 0}
+--- !u!1 &1702792576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1702792583}
+  - component: {fileID: 1702792582}
+  - component: {fileID: 1702792581}
+  - component: {fileID: 1702792580}
+  - component: {fileID: 1702792579}
+  - component: {fileID: 1702792578}
+  - component: {fileID: 1702792577}
+  m_Layer: 0
+  m_Name: 4D Composite Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1702792577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff5744bfc79bb841a9f2f6536930938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Transform4D
+  m_Label: Start Transform
+  Rotation:
+    XY: 0
+    YZ: 0
+    XZ: 0
+    XW: 0
+    YW: 0
+    ZW: 0
+  Position: {x: 0, y: 0, z: 0, w: 0}
+  Scale: {x: 1, y: 1, z: 1, w: 1}
+  m_DeprecatedMesh4D: {fileID: 0}
+--- !u!114 &1702792578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263527a0ba53c40be810b63a8054e002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeshCompositor4D
+  m_MeshRenderer4D: {fileID: 1702792579}
+  m_Mesh0: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh1: {fileID: 0}
+  m_ConvergeToPoint: 1
+  m_UseCustomPointOfConvergence: 0
+  m_PointOfConvergence: {x: 0, y: 0, z: 0, w: 1}
+  m_TransformStart: {fileID: 1702792577}
+  m_TransformEnd: {fileID: 0}
+  m_DeprecatedTransform: {fileID: 0}
+--- !u!114 &1702792579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d418d62a62798e46adc5495e5a82e52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
+  m_Mesh4D: {fileID: 513822923}
+  m_Transform4D: {fileID: 1702792580}
+  m_MeshFilter: {fileID: 1702792582}
+  m_Debug3D: 1
+  m_Debug4D: 1
+--- !u!114 &1702792580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff5744bfc79bb841a9f2f6536930938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Transform4D
+  m_Label: 
+  Rotation:
+    XY: 0
+    YZ: 0
+    XZ: 0
+    XW: 0
+    YW: 0
+    ZW: 0
+  Position: {x: 0, y: 0, z: 0, w: 0}
+  Scale: {x: 1, y: 1, z: 1, w: 1}
+  m_DeprecatedMesh4D: {fileID: 0}
+--- !u!23 &1702792581
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1702792582
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  m_Mesh: {fileID: 0}
+--- !u!4 &1702792583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702792576}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2050494650
 GameObject:
   m_ObjectHideFlags: 0
@@ -3374,159 +3305,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2120917573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fde9aca120b9e5478940a29edaa86ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Mesh4D
-  Vertices:
-  - {x: 0.5, y: -0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: -0.5, z: 0.5, w: 0}
-  - {x: 0.5, y: 0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: 0.5, z: 0.5, w: 0}
-  - {x: 0.5, y: 0.5, z: -0.5, w: 0}
-  - {x: -0.5, y: 0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: -0.5, z: -0.5, w: 0}
-  - {x: -0.5, y: -0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: 0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: 0.5, z: 0.5, w: 0}
-  - {x: 0.5, y: 0.5, z: -0.5, w: 0}
-  - {x: -0.5, y: 0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: -0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: -0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: -0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: -0.5, z: -0.5, w: 0}
-  - {x: -0.5, y: -0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: 0.5, z: 0.5, w: 0}
-  - {x: -0.5, y: 0.5, z: -0.5, w: 0}
-  - {x: -0.5, y: -0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: -0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: 0.5, z: -0.5, w: 0}
-  - {x: 0.5, y: 0.5, z: 0.5, w: 0}
-  - {x: 0.5, y: -0.5, z: 0.5, w: 0}
-  - {x: 0, y: 0, z: 0, w: 1}
-  Edges:
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 0
-  - Index0: 0
-    Index1: 24
-  - Index0: 1
-    Index1: 24
-  - Index0: 2
-    Index1: 24
-  - Index0: 3
-    Index1: 24
-  - Index0: 4
-    Index1: 24
-  - Index0: 5
-    Index1: 24
-  - Index0: 6
-    Index1: 24
-  - Index0: 7
-    Index1: 24
-  - Index0: 8
-    Index1: 24
-  - Index0: 9
-    Index1: 24
-  - Index0: 10
-    Index1: 24
-  - Index0: 11
-    Index1: 24
-  - Index0: 12
-    Index1: 24
-  - Index0: 13
-    Index1: 24
-  - Index0: 14
-    Index1: 24
-  - Index0: 15
-    Index1: 24
-  - Index0: 16
-    Index1: 24
-  - Index0: 17
-    Index1: 24
-  - Index0: 18
-    Index1: 24
-  - Index0: 19
-    Index1: 24
-  - Index0: 20
-    Index1: 24
-  - Index0: 21
-    Index1: 24
-  - Index0: 22
-    Index1: 24
-  - Index0: 23
-    Index1: 24
 --- !u!1 &2129399267
 GameObject:
   m_ObjectHideFlags: 0
@@ -3671,10 +3449,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeshRenderer4D
   m_Mesh4D: {fileID: 0}
   m_Transform4D: {fileID: 0}
-  m_Plane:
-    m_Normal: {x: 0, y: 0, z: 0, w: 1}
-    m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0
   m_MeshFilter: {fileID: 0}
   m_Debug3D: 0
   m_Debug4D: 0
@@ -3692,4 +3466,4 @@ SceneRoots:
   - {fileID: 1381459601}
   - {fileID: 1690073356}
   - {fileID: 2050494656}
-  - {fileID: 1259480796}
+  - {fileID: 1702792583}

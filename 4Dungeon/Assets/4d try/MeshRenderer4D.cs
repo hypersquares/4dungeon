@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +16,12 @@ public class MeshRenderer4D : MonoBehaviour
     [SerializeField] private Transform4D m_Transform4D;
 
     [Header("Hyperplane (for slicing)")]
-    [SerializeField] private Plane4D m_Plane;
+    private Plane4D m_Plane { 
+        get {
+            return GameManager.Instance.slicingPlane;
+        }
+    }
+    private float d = 0f; //The shift along the normal
 
     [Header("Output Mesh")]
     [SerializeField] private MeshFilter m_MeshFilter;
@@ -111,14 +117,26 @@ public class MeshRenderer4D : MonoBehaviour
             UnityEditor.EditorUtility.SetDirty(m_Transform4D);
 #endif
         }
+        Intersect();
     }
 
-    private void Update()
+    //private void OnEnable()
+    //{
+    //    GameManager.OnWChanged += (_) => Intersect();
+    //}
+
+    //private void OnDisable()
+    //{
+    //    GameManager.OnWChanged -= (_) => Intersect();
+    //}
+
+    void Update()
     {
         if (m_Mesh4D != null)
         {
             Intersect();
         }
+
     }
 
     /// <summary>
@@ -198,6 +216,13 @@ public class MeshRenderer4D : MonoBehaviour
             m_Mesh3 = null;
             m_MeshFilter.mesh = null;
         }
+
+        // TODO: Maybe move this to a separate file
+        MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>();
+        meshCollider.sharedMesh = null;
+        meshCollider.sharedMesh = m_Mesh3;
+        meshCollider.convex = true;
+
 
         if (m_Debug3D && m_Mesh3 != null)
         {
