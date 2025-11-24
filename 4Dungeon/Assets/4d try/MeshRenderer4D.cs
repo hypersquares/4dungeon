@@ -11,6 +11,7 @@ public class MeshRenderer4D : MonoBehaviour
 
     [Header("Mesh")]
     public MeshFilter meshFilter;
+    [SerializeField] private MeshCollider m_MeshCollider;
     private Mesh mesh3;
 
     private const float EPS = 1e-6f;
@@ -36,6 +37,10 @@ public class MeshRenderer4D : MonoBehaviour
         {
             var filter = gameObject.GetComponent<MeshFilter>();
             if (filter != null) this.meshFilter = filter;
+        }
+        if (m_MeshCollider == null)
+        {
+            m_MeshCollider = gameObject.GetComponent<MeshCollider>();
         }
         Intersect();
     }
@@ -110,10 +115,12 @@ public class MeshRenderer4D : MonoBehaviour
         }
 
         // TODO: Maybe move this to a separate file
-        MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>();
-        meshCollider.sharedMesh = null;
-        meshCollider.sharedMesh = mesh3;
-        meshCollider.convex = true;
+        if (m_MeshCollider != null)
+        {
+            m_MeshCollider.sharedMesh = null;
+            m_MeshCollider.sharedMesh = mesh3;
+            m_MeshCollider.convex = true;
+        }
 
 
         if (debug3d)
