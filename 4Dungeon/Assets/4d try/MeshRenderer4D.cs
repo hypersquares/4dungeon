@@ -100,10 +100,18 @@ public class MeshRenderer4D : MonoBehaviour
         if (m_MeshFilter == null)
         {
             m_MeshFilter = gameObject.GetComponent<MeshFilter>();
+            if (m_MeshFilter == null)
+            {
+                m_MeshFilter = gameObject.AddComponent<MeshFilter>();
+            }
         }
         if (m_MeshCollider == null)
         {
             m_MeshCollider = gameObject.GetComponent<MeshCollider>();
+            if (m_MeshCollider == null)
+            {
+                m_MeshCollider = gameObject.AddComponent<MeshCollider>();
+            }
         }
     }
 
