@@ -15,14 +15,6 @@ public class MeshRenderer4D : MonoBehaviour
     [Header("Transform")]
     [SerializeField] private Transform4D m_Transform4D;
 
-    [Header("Hyperplane (for slicing)")]
-    private Plane4D m_Plane { 
-        get {
-            return GameManager.Instance.slicingPlane;
-        }
-    }
-    private float d = 0f; //The shift along the normal
-
     [Header("Output Mesh")]
     [SerializeField] private MeshFilter m_MeshFilter;
     private Mesh m_Mesh3;
@@ -263,8 +255,8 @@ public class MeshRenderer4D : MonoBehaviour
     /// </summary>
     private int Intersection(List<Vector4> vertices, Vector4 v0, Vector4 v1)
     {
-        float d0 = Vector4.Dot(m_Plane.normal, v0 - m_Plane.point);
-        float d1 = Vector4.Dot(m_Plane.normal, v1 - m_Plane.point);
+        float d0 = Vector4.Dot(GameManager.Instance.SlicingPlaneNormal, v0 - GameManager.Instance.SlicingPlanePoint);
+        float d1 = Vector4.Dot(GameManager.Instance.SlicingPlaneNormal, v1 - GameManager.Instance.SlicingPlanePoint);
 
         // Both points on the same side of the plane
         if (d0 * d1 > 0)

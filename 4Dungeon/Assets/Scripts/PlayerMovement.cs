@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = transform.TransformDirection(new Vector3(moveInput.x, 0, moveInput.z)).normalized;
         
         float wMove = moveInput.y;
-        GameManager.Instance.slicingPlane.offset += wMove * moveSpeed / 100f;
+        GameManager.Instance.SlicingPlaneOffset += wMove * moveSpeed / 100f;
 
         float multiplier = onGround ? 1f : airMultiplier;
 
