@@ -13,12 +13,14 @@ public class GameManager : MonoBehaviour
     public float SlicingPlaneOffset { get => slicingPlane.offset; set => slicingPlane.offset = Mathf.Clamp(value, minW, maxW); }
     public Vector4 SlicingPlanePoint { get => slicingPlane.point; }
 
-	private void Awake()
+	private void Start()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
+#if !UNITY_EDITOR
 			DontDestroyOnLoad(gameObject);
+#endif
 		}
 		else
 		{
