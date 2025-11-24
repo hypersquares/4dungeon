@@ -16,11 +16,6 @@ public class MeshRenderer4D : MonoBehaviour
     [SerializeField] private Transform4D m_Transform4D;
 
     [Header("Hyperplane (for slicing)")]
-    private Plane4D m_Plane {
-        get {
-            return GameManager.Instance.slicingPlane;
-        }
-    }
 
     [Header("Output Mesh")]
     [SerializeField] private MeshFilter m_MeshFilter;
