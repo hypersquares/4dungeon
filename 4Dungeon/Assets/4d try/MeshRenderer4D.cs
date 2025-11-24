@@ -1,41 +1,121 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
+/// <summary>
+/// Renders a 4D mesh by slicing it with a hyperplane and displaying the 3D cross-section.
+/// Owns the Mesh4D data and applies transforms from Transform4D before slicing.
+/// </summary>
 [ExecuteInEditMode]
 public class MeshRenderer4D : MonoBehaviour
 {
-    public Transform4D transform4D;
+    [Header("4D Mesh")]
+    [SerializeField] private Mesh4D m_Mesh4D;
 
-    private readonly Plane4D slicingPlane = GameManager.Instance.slicingPlane;
+    [Header("Transform")]
+    [SerializeField] private Transform4D m_Transform4D;
 
-    [Header("Mesh")]
-    public MeshFilter meshFilter;
-    private Mesh mesh3;
+    [Header("Hyperplane (for slicing)")]
+    private Plane4D m_Plane { 
+        get {
+            return GameManager.Instance.slicingPlane;
+        }
+    }
+    private float d = 0f; //The shift along the normal
+
+    [Header("Output Mesh")]
+    [SerializeField] private MeshFilter m_MeshFilter;
+    private Mesh m_Mesh3;
+
+    [Header("Debug")]
+    [SerializeField] private bool m_Debug3D = false;
+    [SerializeField] private bool m_Debug4D = false;
 
     private const float EPS = 1e-6f;
-    public bool debug3d = false;
-    public bool debug4d = false;
 
-    void Start()
+    /// <summary>
+    /// The 4D mesh to render.
+    /// </summary>
+    public Mesh4D mesh4D
     {
-        if (transform4D == null)
+        get => m_Mesh4D;
+        set => m_Mesh4D = value;
+    }
+
+    /// <summary>
+    /// The Transform4D component used to transform vertices before slicing.
+    /// </summary>
+    public Transform4D transform4D
+    {
+        get => m_Transform4D;
+        set => m_Transform4D = value;
+    }
+
+    /// <summary>
+    /// The MeshFilter to output the sliced 3D mesh to.
+    /// </summary>
+    public MeshFilter meshFilter
+    {
+        get => m_MeshFilter;
+        set => m_MeshFilter = value;
+    }
+
+    /// <summary>
+    /// Debug flag for drawing 3D slice edges.
+    /// </summary>
+    public bool debug3d
+    {
+        get => m_Debug3D;
+        set => m_Debug3D = value;
+    }
+
+    /// <summary>
+    /// Debug flag for drawing 4D mesh edges.
+    /// </summary>
+    public bool debug4d
+    {
+        get => m_Debug4D;
+        set => m_Debug4D = value;
+    }
+
+    private void OnValidate()
+    {
+        MigrateFromTransform4D();
+    }
+
+    private void Start()
+    {
+        MigrateFromTransform4D();
+
+        if (m_Transform4D == null)
         {
-            var trans = gameObject.GetComponent<Transform4D>();
-            if (trans != null) {
-                this.transform4D = trans;
-                // foreach (Edge e in transform4D.mesh4D.Edges)
-                    // Debug.Log(e);
-            } else
+            m_Transform4D = gameObject.GetComponent<Transform4D>();
+            if (m_Transform4D == null)
             {
-                gameObject.AddComponent<Transform4D>();
-                this.transform4D = trans;
+                m_Transform4D = gameObject.AddComponent<Transform4D>();
             }
         }
-        if (meshFilter == null)
+        if (m_MeshFilter == null)
         {
-            var filter = gameObject.GetComponent<MeshFilter>();
-            if (filter != null) this.meshFilter = filter;
+            m_MeshFilter = gameObject.GetComponent<MeshFilter>();
+        }
+    }
+
+    /// <summary>
+    /// Migrates mesh4D data from Transform4D (old location) to MeshRenderer4D (new location).
+    /// This runs on validate and start to handle both editor and runtime migration.
+    /// </summary>
+    private void MigrateFromTransform4D()
+    {
+        if (m_Mesh4D == null && m_Transform4D != null && m_Transform4D.deprecatedMesh4D != null)
+        {
+            m_Mesh4D = m_Transform4D.deprecatedMesh4D;
+            m_Transform4D.deprecatedMesh4D = null;
+            Debug.Log($"Migrated Mesh4D from Transform4D to MeshRenderer4D on '{gameObject.name}'");
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(m_Transform4D);
+#endif
         }
         Intersect();
     }
@@ -52,100 +132,139 @@ public class MeshRenderer4D : MonoBehaviour
 
     void Update()
     {
-        Intersect();
+        if (m_Mesh4D != null)
+        {
+            Intersect();
+        }
+
     }
 
+    /// <summary>
+    /// Sets the 4D mesh to render.
+    /// </summary>
     public void SetMesh(Mesh4D m)
     {
-        if (transform4D != null) transform4D.mesh4D = m;
+        m_Mesh4D = m;
     }
 
-
+    /// <summary>
+    /// Performs the hyperplane intersection and generates the 3D output mesh.
+    /// </summary>
     public void Intersect()
     {
-        if (transform4D.mesh4D == null)
+        if (m_Mesh4D == null || m_Mesh4D.Vertices == null || m_Mesh4D.Edges == null)
         {
-            Debug.LogError("No Mesh4D assigned to Transform4D");
             return;
         }
 
-        Mesh4D mesh4D = transform4D.mesh4D;
-        List<Vector4> vertices = new List<Vector4>();
-
-        for (int i = 0; i < mesh4D.Edges.Length; i++)
+        // Transform vertices using Transform4D (if available)
+        Vector4[] transformedVertices;
+        if (m_Transform4D != null)
         {
-            Edge edge = mesh4D.Edges[i];
-            Vector4 v0 = transform4D.vertices[edge.Index0];
-            Vector4 v1 = transform4D.vertices[edge.Index1];
-            Intersection(vertices, v0, v1);
+            transformedVertices = m_Transform4D.Transform(m_Mesh4D.Vertices);
+        }
+        else
+        {
+            transformedVertices = m_Mesh4D.Vertices;
+        }
+
+        List<Vector4> intersectionVertices = new List<Vector4>();
+
+        for (int i = 0; i < m_Mesh4D.Edges.Length; i++)
+        {
+            Edge edge = m_Mesh4D.Edges[i];
+            Vector4 v0 = transformedVertices[edge.Index0];
+            Vector4 v1 = transformedVertices[edge.Index1];
+            Intersection(intersectionVertices, v0, v1);
         }
 
         // Remove duplicate vertices
-        for (int i = 0; i < vertices.Count; i++)
-            for (int j = vertices.Count - 1; j > i; j--)
-                if ((vertices[i] - vertices[j]).sqrMagnitude < EPS)
-                    vertices.RemoveAt(j);
+        for (int i = 0; i < intersectionVertices.Count; i++)
+        {
+            for (int j = intersectionVertices.Count - 1; j > i; j--)
+            {
+                if ((intersectionVertices[i] - intersectionVertices[j]).sqrMagnitude < EPS)
+                {
+                    intersectionVertices.RemoveAt(j);
+                }
+            }
+        }
 
-        if (vertices.Count > 3)
+        if (intersectionVertices.Count > 3)
         {
             // Normal case: convex polygon with more than 3 vertices
-            mesh3 = ConvexHullWrapper.ConstructMesh(vertices, transform4D);
-            meshFilter.mesh = mesh3;
-        } else if (vertices.Count == 3)
+            m_Mesh3 = ConvexHullWrapper.ConstructMesh(intersectionVertices, m_Transform4D);
+            m_MeshFilter.mesh = m_Mesh3;
+        }
+        else if (intersectionVertices.Count == 3)
         {
             // Degenerate case: triangle
-            mesh3 = new Mesh();
+            m_Mesh3 = new Mesh();
+            Vector3[] verts = new Vector3[3];
             for (int i = 0; i < 3; i++)
             {
-                mesh3.vertices[i] = transform4D.ProjectTo3D(vertices[i]);
+                verts[i] = ProjectTo3D(intersectionVertices[i]);
             }
-            mesh3.triangles = new int[] { 0, 1, 2 };
-            mesh3.RecalculateNormals();
-            meshFilter.mesh = mesh3;
-        } else
+            m_Mesh3.vertices = verts;
+            m_Mesh3.triangles = new int[] { 0, 1, 2 };
+            m_Mesh3.RecalculateNormals();
+            m_MeshFilter.mesh = m_Mesh3;
+        }
+        else
         {
-            //Debug.Log("Less than 3 intersection points");
-            mesh3 = null;
-            meshFilter.mesh = null;
+            Debug.Log("Less than 3 intersection points");
+            m_Mesh3 = null;
+            m_MeshFilter.mesh = null;
         }
 
         // TODO: Maybe move this to a separate file
         MeshCollider meshCollider = gameObject.GetComponent<MeshCollider>();
         meshCollider.sharedMesh = null;
-        meshCollider.sharedMesh = mesh3;
+        meshCollider.sharedMesh = m_Mesh3;
         meshCollider.convex = true;
 
 
-        if (debug3d)
+        if (m_Debug3D && m_Mesh3 != null)
         {
-            for (int i = 0; i < mesh3.triangles.Length; i += 3)
+            for (int i = 0; i < m_Mesh3.triangles.Length; i += 3)
             {
-                Vector3 v0 = mesh3.vertices[mesh3.triangles[i]];
-                Vector3 v1 = mesh3.vertices[mesh3.triangles[i + 1]];
-                Vector3 v2 = mesh3.vertices[mesh3.triangles[i + 2]];
+                Vector3 v0 = m_Mesh3.vertices[m_Mesh3.triangles[i]];
+                Vector3 v1 = m_Mesh3.vertices[m_Mesh3.triangles[i + 1]];
+                Vector3 v2 = m_Mesh3.vertices[m_Mesh3.triangles[i + 2]];
                 Debug.DrawLine(v0, v1, Color.red);
                 Debug.DrawLine(v1, v2, Color.red);
                 Debug.DrawLine(v2, v0, Color.red);
             }
         }
 
-        if (debug4d)
+        if (m_Debug4D)
         {
-            for (int i = 0; i < mesh4D.Edges.Length; i++)
+            for (int i = 0; i < m_Mesh4D.Edges.Length; i++)
             {
-                Edge edge = mesh4D.Edges[i];
-                Vector4 v0 = transform4D.vertices[edge.Index0];
-                Vector4 v1 = transform4D.vertices[edge.Index1];
-                Debug.DrawLine(transform4D.ProjectTo3D(v0), transform4D.ProjectTo3D(v1), Color.green);
+                Edge edge = m_Mesh4D.Edges[i];
+                Vector4 v0 = transformedVertices[edge.Index0];
+                Vector4 v1 = transformedVertices[edge.Index1];
+                Debug.DrawLine(ProjectTo3D(v0), ProjectTo3D(v1), Color.green);
             }
         }
     }
 
-    // Returns number of intersection points
+    /// <summary>
+    /// Projects a 4D point to 3D by dropping the W component.
+    /// </summary>
+    private Vector3 ProjectTo3D(Vector4 v)
+    {
+        return new Vector3(v.x, v.y, v.z);
+    }
+
+    /// <summary>
+    /// Computes intersection of a line segment with the hyperplane.
+    /// Returns the number of intersection points added.
+    /// </summary>
     private int Intersection(List<Vector4> vertices, Vector4 v0, Vector4 v1)
     {
-        float d0 = Vector4.Dot(slicingPlane.normal, v0 - slicingPlane.point);
-        float d1 = Vector4.Dot(slicingPlane.normal, v1 - slicingPlane.point);
+        float d0 = Vector4.Dot(m_Plane.normal, v0 - m_Plane.point);
+        float d1 = Vector4.Dot(m_Plane.normal, v1 - m_Plane.point);
 
         // Both points on the same side of the plane
         if (d0 * d1 > 0)

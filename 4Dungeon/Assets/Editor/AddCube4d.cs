@@ -10,9 +10,9 @@ public class AddCube4d
             // Create a new GameObject
             GameObject cube = new GameObject("New Cube4D");
 
-            Transform4D trans = cube.AddComponent<Transform4D>();
-            trans.mesh4D = ScriptableObject.CreateInstance<Cube4D>();
-            cube.AddComponent<MeshRenderer4D>();
+            cube.AddComponent<Transform4D>();
+            MeshRenderer4D renderer = cube.AddComponent<MeshRenderer4D>();
+            renderer.mesh4D = ScriptableObject.CreateInstance<Cube4D>();
             cube.AddComponent<MeshFilter>();
             cube.AddComponent<MeshRenderer>();
 
