@@ -7,9 +7,7 @@ public class MeshRenderer4D : MonoBehaviour
 {
     public Transform4D transform4D;
 
-    //[Header("Hyperplane (for slicing)")]
-    //public Vector4 planePoint = new Vector4(0, 0, 0, 0);
-    private Vector4 planeNorm = new Vector4(0, 0, 0, 1);
+    private readonly Plane4D slicingPlane = GameManager.Instance.slicingPlane;
 
     [Header("Mesh")]
     public MeshFilter meshFilter;
@@ -65,13 +63,13 @@ public class MeshRenderer4D : MonoBehaviour
 
     public void Intersect()
     {
-        if (transform4d.mesh4D == null)
+        if (transform4D.mesh4D == null)
         {
             Debug.LogError("No Mesh4D assigned to Transform4D");
             return;
         }
 
-        Mesh4D mesh4D = transform4d.mesh4D;
+        Mesh4D mesh4D = transform4D.mesh4D;
         List<Vector4> vertices = new List<Vector4>();
 
         for (int i = 0; i < mesh4D.Edges.Length; i++)
@@ -146,9 +144,8 @@ public class MeshRenderer4D : MonoBehaviour
     // Returns number of intersection points
     private int Intersection(List<Vector4> vertices, Vector4 v0, Vector4 v1)
     {
-        Vector4 planePoint = new Vector4(0, 0, 0, GameManager.Instance.W);
-        float d0 = Vector4.Dot(planeNorm, v0 - planePoint);
-        float d1 = Vector4.Dot(planeNorm, v1 - planePoint);
+        float d0 = Vector4.Dot(slicingPlane.normal, v0 - slicingPlane.point);
+        float d1 = Vector4.Dot(slicingPlane.normal, v1 - slicingPlane.point);
 
         // Both points on the same side of the plane
         if (d0 * d1 > 0)

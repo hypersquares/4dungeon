@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "InputSystem_Actions",
+    "name": "PlayerActionsMap",
     "maps": [
         {
             "name": "Player",
@@ -10,7 +10,7 @@
                     "name": "Move",
                     "type": "Value",
                     "id": "351f2ccd-1f9f-44bf-9bec-d62ac5c5f408",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -32,15 +32,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "ShiftW",
-                    "type": "Value",
-                    "id": "f85750d6-cdda-422d-928a-245ab8f659cb",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -67,9 +58,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "WASD",
+                    "name": "WASDQE",
                     "id": "096e9c3a-6d1b-475c-84ed-31ae41923d5c",
-                    "path": "2DVector",
+                    "path": "3DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -80,7 +71,7 @@
                 {
                     "name": "Up",
                     "id": "502789dd-c32e-4018-b587-804cbc076f0e",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -91,7 +82,7 @@
                 {
                     "name": "Down",
                     "id": "2d13c5fb-21db-4895-ab5c-d27913b5ad86",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -122,35 +113,24 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Axis",
-                    "id": "eccae247-ab2a-4bf8-a86e-663c6174e335",
-                    "path": "1DAxis",
+                    "name": "Forward",
+                    "id": "b6afce68-99c8-46d2-920f-0bea1d0e0d26",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ShiftW",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "0c8867dd-99ff-467a-a5da-42b5267ed2d8",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ShiftW",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "211ced71-4df4-4fb6-951b-036b0dcffa0c",
-                    "path": "<Keyboard>/e",
+                    "name": "Backward",
+                    "id": "398535fc-6fd7-44c4-9100-a176276f2817",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ShiftW",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
