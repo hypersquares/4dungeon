@@ -4,7 +4,21 @@ using System;
 [ExecuteInEditMode]
 public class GameManager : MonoBehaviour
 {
-	public static GameManager Instance { get; private set; }
+	private static GameManager s_Instance;
+
+	public static GameManager Instance
+	{
+		get
+		{
+			// Lazy initialization handles OnValidate() running before Awake()
+			if (s_Instance == null)
+			{
+				s_Instance = FindAnyObjectByType<GameManager>();
+			}
+			return s_Instance;
+		}
+		private set => s_Instance = value;
+	}
 
 	[SerializeField] private float minW = -10f;
 	[SerializeField] private float maxW = 10f;
@@ -13,11 +27,11 @@ public class GameManager : MonoBehaviour
     public float SlicingPlaneOffset { get => slicingPlane.offset; set => slicingPlane.offset = Mathf.Clamp(value, minW, maxW); }
     public Vector4 SlicingPlanePoint { get => slicingPlane.point; }
 
-	private void Start()
+	private void Awake()
 	{
-		if (Instance == null)
+		if (s_Instance == null || s_Instance == this)
 		{
-			Instance = this;
+			s_Instance = this;
 #if !UNITY_EDITOR
 			DontDestroyOnLoad(gameObject);
 #endif
@@ -25,6 +39,14 @@ public class GameManager : MonoBehaviour
 		else
 		{
 			Destroy(gameObject);
+		}
+	}
+
+	private void OnDestroy()
+	{
+		if (s_Instance == this)
+		{
+			s_Instance = null;
 		}
 	}
 }

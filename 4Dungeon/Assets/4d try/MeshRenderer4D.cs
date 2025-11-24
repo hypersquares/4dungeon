@@ -108,6 +108,7 @@ public class MeshRenderer4D : MonoBehaviour
                 m_MeshCollider = gameObject.AddComponent<MeshCollider>();
             }
         }
+        Intersect();
     }
 
     /// <summary>
@@ -126,7 +127,6 @@ public class MeshRenderer4D : MonoBehaviour
             UnityEditor.EditorUtility.SetDirty(m_Transform4D);
 #endif
         }
-        Intersect();
     }
 
     //private void OnEnable()
@@ -165,6 +165,7 @@ public class MeshRenderer4D : MonoBehaviour
         {
             return;
         }
+
 
         // Transform vertices using Transform4D (if available)
         Vector4[] transformedVertices;
@@ -255,7 +256,7 @@ public class MeshRenderer4D : MonoBehaviour
                 Edge edge = m_Mesh4D.Edges[i];
                 Vector4 v0 = transformedVertices[edge.Index0];
                 Vector4 v1 = transformedVertices[edge.Index1];
-                Debug.DrawLine(ProjectTo3D(v0), ProjectTo3D(v1), Color.green);
+                Debug.DrawLine(gameObject.transform.TransformVector(ProjectTo3D(v0)) + gameObject.transform.position, gameObject.transform.TransformVector(ProjectTo3D(v1) + gameObject.transform.position), Color.green);
             }
         }
     }

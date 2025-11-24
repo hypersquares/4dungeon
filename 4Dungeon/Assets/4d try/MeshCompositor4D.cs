@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -245,6 +246,7 @@ public class MeshCompositor4D : MonoBehaviour
         allVerts.Add(new Vector4(cP.x, cP.y, cP.z, cP.w));
         Edge[] edges0 = GetMeshEdges(mesh0);
         Edge[] edgesToPoint = new Edge[edges0.Length + mesh0.vertices.Length];
+        edges0.CopyTo(edgesToPoint, 0);
         for (int i = 0; i < mesh0.vertices.Length; i++)
         {
             edgesToPoint[edges0.Length + i] = new Edge(i, mesh0.vertices.Length);
