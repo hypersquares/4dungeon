@@ -8,6 +8,9 @@ public class MeshCompositor4DEditor : Editor
     private SerializedProperty m_Mesh0Property;
     private SerializedProperty m_Mesh1Property;
     private SerializedProperty m_TransformProperty;
+    private SerializedProperty m_ConvergeToPointProperty;
+    private SerializedProperty m_UseCustomPointOfConvergenceProperty;
+    private SerializedProperty m_PointOfConvergenceProperty;
 
     private void OnEnable()
     {
@@ -15,6 +18,9 @@ public class MeshCompositor4DEditor : Editor
         m_Mesh0Property = serializedObject.FindProperty("m_mesh0");
         m_Mesh1Property = serializedObject.FindProperty("m_mesh1");
         m_TransformProperty = serializedObject.FindProperty("m_transform");
+        m_ConvergeToPointProperty = serializedObject.FindProperty("m_ConvergeToPoint");
+        m_UseCustomPointOfConvergenceProperty = serializedObject.FindProperty("m_UseCustomPointOfConvergence");
+        m_PointOfConvergenceProperty = serializedObject.FindProperty("m_PointOfConvergence");
     }
 
     public override void OnInspectorGUI()
@@ -23,8 +29,26 @@ public class MeshCompositor4DEditor : Editor
 
         EditorGUI.BeginChangeCheck();
 
+        EditorGUILayout.PropertyField(m_ConvergeToPointProperty, new GUIContent("Converge To Point", "When enabled, the mesh converges to a single point instead of using Mesh 1"));
+
+        if (m_ConvergeToPointProperty.boolValue)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(m_UseCustomPointOfConvergenceProperty, new GUIContent("Use Custom Convergence Point", "When enabled, use a custom point instead of the mesh center"));
+
+            if (m_UseCustomPointOfConvergenceProperty.boolValue)
+            {
+                EditorGUILayout.PropertyField(m_PointOfConvergenceProperty, new GUIContent("Point Of Convergence", "The custom 4D point to converge to"));
+            }
+            EditorGUI.indentLevel--;
+        }
+
         EditorGUILayout.PropertyField(m_Mesh0Property, new GUIContent("Mesh 0", "The first mesh for 4D composition (w=0)"));
-        EditorGUILayout.PropertyField(m_Mesh1Property, new GUIContent("Mesh 1", "The second mesh for 4D composition (w=1)"));
+
+        if (!m_ConvergeToPointProperty.boolValue)
+        {
+            EditorGUILayout.PropertyField(m_Mesh1Property, new GUIContent("Mesh 1", "The second mesh for 4D composition (w=1)"));
+        }
 
         bool meshesChanged = EditorGUI.EndChangeCheck();
 
@@ -36,12 +60,13 @@ public class MeshCompositor4DEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
 
-        // Call CompositeMesh when both meshes are assigned and values changed
+        // Call CompositeMesh when required meshes are assigned and values changed
         if (meshesChanged)
         {
-            bool hasBothMeshes = m_Mesh0Property.objectReferenceValue != null &&
-                                 m_Mesh1Property.objectReferenceValue != null;
-            if (hasBothMeshes)
+            bool convergeToPoint = m_ConvergeToPointProperty.boolValue;
+            bool hasRequiredMeshes = m_Mesh0Property.objectReferenceValue != null &&
+                                     (convergeToPoint || m_Mesh1Property.objectReferenceValue != null);
+            if (hasRequiredMeshes)
             {
                 CompositeAndRefresh();
             }
@@ -53,8 +78,13 @@ public class MeshCompositor4DEditor : Editor
 
         bool mesh0Set = m_Mesh0Property.objectReferenceValue != null;
         bool mesh1Set = m_Mesh1Property.objectReferenceValue != null;
+        bool converge = m_ConvergeToPointProperty.boolValue;
 
-        if (mesh0Set && mesh1Set)
+        if (converge && mesh0Set)
+        {
+            EditorGUILayout.HelpBox("Mesh 0 assigned. Converging to point.", MessageType.Info);
+        }
+        else if (mesh0Set && mesh1Set)
         {
             EditorGUILayout.HelpBox("Both meshes assigned. Composite mesh has been generated and assigned.", MessageType.Info);
         }
@@ -62,14 +92,15 @@ public class MeshCompositor4DEditor : Editor
         {
             string missing = "";
             if (!mesh0Set) missing += "Mesh 0";
-            if (!mesh0Set && !mesh1Set) missing += " and ";
-            if (!mesh1Set) missing += "Mesh 1";
+            if (!converge && !mesh0Set && !mesh1Set) missing += " and ";
+            if (!converge && !mesh1Set) missing += "Mesh 1";
             EditorGUILayout.HelpBox($"Missing: {missing}", MessageType.Warning);
         }
 
         // Manual recomposite button
         EditorGUILayout.Space();
-        EditorGUI.BeginDisabledGroup(!mesh0Set || !mesh1Set);
+        bool canComposite = mesh0Set && (converge || mesh1Set);
+        EditorGUI.BeginDisabledGroup(!canComposite);
         if (GUILayout.Button("Recomposite Mesh"))
         {
             CompositeAndRefresh();
