@@ -15,6 +15,13 @@ public class Transform4dEditor : Editor
     {
         serializedObject.Update();
 
+        // Display label as header if set
+        if (!string.IsNullOrEmpty(m_Transform4D.label))
+        {
+            EditorGUILayout.LabelField(m_Transform4D.label, EditorStyles.boldLabel);
+            EditorGUILayout.Space(2);
+        }
+
         EditorGUI.BeginChangeCheck();
 
         DrawDefaultInspector();

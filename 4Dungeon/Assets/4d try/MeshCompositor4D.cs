@@ -57,18 +57,22 @@ public class MeshCompositor4D : MonoBehaviour
         if (m_Mesh0 != null && m_TransformStart == null)
         {
             m_TransformStart = gameObject.AddComponent<Transform4D>();
+            m_TransformStart.label = "Start Transform";
             Debug.Log($"Added Transform4D component (Start) to '{gameObject.name}'");
 #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(m_TransformStart);
 #endif
         }
 
         if (m_Mesh1 != null && m_TransformEnd == null && !m_ConvergeToPoint)
         {
             m_TransformEnd = gameObject.AddComponent<Transform4D>();
+            m_TransformEnd.label = "End Transform";
             Debug.Log($"Added Transform4D component (End) to '{gameObject.name}'");
 #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.EditorUtility.SetDirty(m_TransformEnd);
 #endif
         }
     }

@@ -10,9 +10,19 @@ using UnityEngine.Serialization;
 public class Transform4D : MonoBehaviour
 {
 	[Header("Transform4D")]
+	[SerializeField, HideInInspector] private string m_Label = "";
 	public Euler4 Rotation;
 	public Vector4 Position;
 	public Vector4 Scale = Vector4.one;
+
+	/// <summary>
+	/// Optional label to identify this Transform4D in the inspector.
+	/// </summary>
+	public string label
+	{
+		get => m_Label;
+		set => m_Label = value;
+	}
 
 	// Deprecated: Mesh4D has been moved to MeshRenderer4D.
 	// Kept for migration from old scenes - MeshRenderer4D.OnValidate will pull this data.
