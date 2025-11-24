@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -20,6 +21,14 @@ public class MeshCompositor4D : MonoBehaviour
 
     [SerializeField] private Transform4D m_TransformStart;
     [SerializeField] private Transform4D m_TransformEnd;
+
+    // Cached transform values for change detection (works even when inspector is collapsed)
+    private Euler4 m_CachedStartRotation;
+    private Vector4 m_CachedStartPosition;
+    private Vector4 m_CachedStartScale;
+    private Euler4 m_CachedEndRotation;
+    private Vector4 m_CachedEndPosition;
+    private Vector4 m_CachedEndScale;
 
     // Deprecated: Old reference was to Transform4D, now we reference MeshRenderer4D directly.
     // Kept for migration from old scenes.
@@ -46,7 +55,74 @@ public class MeshCompositor4D : MonoBehaviour
     {
         MigrateFromDeprecatedTransform();
         EnsureTransforms();
+        CacheTransformValues();
         CompositeMesh();
+    }
+
+    private void Update()
+    {
+        if (DetectTransformChanges())
+        {
+            CompositeMesh();
+        }
+    }
+
+    /// <summary>
+    /// Detects if the Transform4D components have changed since last frame.
+    /// This allows recompositing even when the inspector is collapsed.
+    /// </summary>
+    private bool DetectTransformChanges()
+    {
+        bool changed = false;
+
+        // Check start transform values
+        if (m_TransformStart != null)
+        {
+            if (!m_CachedStartRotation.Equals(m_TransformStart.Rotation) ||
+                m_CachedStartPosition != m_TransformStart.Position ||
+                m_CachedStartScale != m_TransformStart.Scale)
+            {
+                changed = true;
+            }
+        }
+
+        // Check end transform values
+        if (m_TransformEnd != null && !m_ConvergeToPoint)
+        {
+            if (!m_CachedEndRotation.Equals(m_TransformEnd.Rotation) ||
+                m_CachedEndPosition != m_TransformEnd.Position ||
+                m_CachedEndScale != m_TransformEnd.Scale)
+            {
+                changed = true;
+            }
+        }
+
+        if (changed)
+        {
+            CacheTransformValues();
+        }
+
+        return changed;
+    }
+
+    /// <summary>
+    /// Caches current transform values for change detection.
+    /// </summary>
+    private void CacheTransformValues()
+    {
+        if (m_TransformStart != null)
+        {
+            m_CachedStartRotation = m_TransformStart.Rotation;
+            m_CachedStartPosition = m_TransformStart.Position;
+            m_CachedStartScale = m_TransformStart.Scale;
+        }
+
+        if (m_TransformEnd != null)
+        {
+            m_CachedEndRotation = m_TransformEnd.Rotation;
+            m_CachedEndPosition = m_TransformEnd.Position;
+            m_CachedEndScale = m_TransformEnd.Scale;
+        }
     }
 
     /// <summary>
@@ -170,6 +246,7 @@ public class MeshCompositor4D : MonoBehaviour
         allVerts.Add(new Vector4(cP.x, cP.y, cP.z, cP.w));
         Edge[] edges0 = GetMeshEdges(mesh0);
         Edge[] edgesToPoint = new Edge[edges0.Length + mesh0.vertices.Length];
+        edges0.CopyTo(edgesToPoint, 0);
         for (int i = 0; i < mesh0.vertices.Length; i++)
         {
             edgesToPoint[edges0.Length + i] = new Edge(i, mesh0.vertices.Length);
