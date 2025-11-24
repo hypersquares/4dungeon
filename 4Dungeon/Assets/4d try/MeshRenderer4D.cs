@@ -279,8 +279,8 @@ public class MeshRenderer4D : MonoBehaviour
     /// </summary>
     private int Intersection(List<Vector4> vertices, Vector4 v0, Vector4 v1)
     {
-        float d0 = Vector4.Dot(m_Plane.normal, v0 - m_Plane.point);
-        float d1 = Vector4.Dot(m_Plane.normal, v1 - m_Plane.point);
+        float d0 = Vector4.Dot(GameManager.Instance.SlicingPlaneNormal, v0 - GameManager.Instance.SlicingPlanePoint);
+        float d1 = Vector4.Dot(GameManager.Instance.SlicingPlaneNormal, v1 - GameManager.Instance.SlicingPlanePoint);
 
         // Both points on the same side of the plane
         if (d0 * d1 > 0)
