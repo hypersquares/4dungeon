@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
+    public float wSpeed;
     public float groundDrag;
 
     public float jumpForce;
@@ -52,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotateCamera()
     {
-        Vector2 mouseMove = lookInput * mouseSensitivity * Time.deltaTime;
+        Vector2 mouseMove = lookInput * mouseSensitivity;
 
         yaw += mouseMove.x;
         pitch -= mouseMove.y;
@@ -93,11 +94,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = transform.TransformDirection(new Vector3(moveInput.x, 0, moveInput.z)).normalized;
         
         float wMove = moveInput.y;
-        GameManager.Instance.SlicingPlaneOffset += wMove * moveSpeed / 100f;
+        GameManager.Instance.SlicingPlaneOffset += wMove * wSpeed;
 
         float multiplier = onGround ? 1f : airMultiplier;
 
-        rb.AddForce(moveDirection * moveSpeed * 10f * multiplier, ForceMode.Force);
+        rb.AddForce(moveDirection * moveSpeed * multiplier, ForceMode.Force);
     }
 
     private void Jump()

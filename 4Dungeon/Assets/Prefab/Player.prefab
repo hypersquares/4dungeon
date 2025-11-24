@@ -188,16 +188,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c24063cbc632084db0bb1456bd95d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 7
+  moveSpeed: 70
+  wSpeed: 0.1
   groundDrag: 5
   jumpForce: 8
   jumpCooldown: 0.25
-  airMultiplier: 0.4
+  airMultiplier: 0.05
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  mouseSensitivity: 50
+  mouseSensitivity: 0.5
   cameraTransform: {fileID: 2333875463349144144}
 --- !u!114 &6745286171442772323
 MonoBehaviour:
