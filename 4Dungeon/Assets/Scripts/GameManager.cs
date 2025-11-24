@@ -18,7 +18,9 @@ public class GameManager : MonoBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
+            #if UNITY_EDITOR == false
 			DontDestroyOnLoad(gameObject);
+            #endif
 		}
 		else
 		{
