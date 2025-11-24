@@ -100,7 +100,7 @@ public static class Object4DSetup
 
         Selection.activeGameObject = obj;
         EditorUtility.SetDirty(obj);
-        Debug.Log("Created new simple 4D Object - assign a Mesh4D to Transform4D");
+        Debug.Log("Created new simple 4D Object - assign a Mesh4D to MeshRenderer4D");
     }
 
     // ==================== Setup Methods ====================
@@ -126,14 +126,14 @@ public static class Object4DSetup
             meshRenderer.sharedMaterial = GetDefaultMaterial();
         }
 
-        // 3. Add or get Transform4D (core 4D transform, holds mesh4D)
+        // 3. Add or get Transform4D (core 4D transform)
         Transform4D transform4D = obj.GetComponent<Transform4D>();
         if (transform4D == null)
         {
             transform4D = Undo.AddComponent<Transform4D>(obj);
         }
 
-        // 4. Add or get MeshRenderer4D (slices 4D mesh into 3D)
+        // 4. Add or get MeshRenderer4D (owns mesh4D, slices 4D mesh into 3D)
         MeshRenderer4D meshRenderer4D = obj.GetComponent<MeshRenderer4D>();
         if (meshRenderer4D == null)
         {
@@ -160,7 +160,7 @@ public static class Object4DSetup
         SetupSimpleObject4D(obj);
 
         // Get references for wiring
-        Transform4D transform4D = obj.GetComponent<Transform4D>();
+        MeshRenderer4D meshRenderer4D = obj.GetComponent<MeshRenderer4D>();
 
         // Add or get MeshCompositor4D (creates 4D mesh from two 3D meshes)
         MeshCompositor4D compositor = obj.GetComponent<MeshCompositor4D>();
@@ -170,8 +170,8 @@ public static class Object4DSetup
         }
         // Wire up references via SerializedObject to access private field
         SerializedObject serializedCompositor = new SerializedObject(compositor);
-        SerializedProperty transformProp = serializedCompositor.FindProperty("m_transform");
-        transformProp.objectReferenceValue = transform4D;
+        SerializedProperty meshRenderer4DProp = serializedCompositor.FindProperty("m_MeshRenderer4D");
+        meshRenderer4DProp.objectReferenceValue = meshRenderer4D;
         serializedCompositor.ApplyModifiedPropertiesWithoutUndo();
 
         EditorUtility.SetDirty(compositor);

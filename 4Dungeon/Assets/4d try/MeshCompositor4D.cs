@@ -1,77 +1,168 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
-/// Creates a mesh connecting two 
+/// Creates a 4D mesh by connecting two 3D meshes along the W axis.
 /// </summary>
 [System.Serializable]
 [ExecuteInEditMode]
 public class MeshCompositor4D : MonoBehaviour
 {
-    [SerializeField] private Transform4D m_transform;
-    [SerializeField] private Mesh m_mesh0;
-    [SerializeField] private Mesh m_mesh1;
+    [SerializeField] private MeshRenderer4D m_MeshRenderer4D;
+    [SerializeField] private Mesh m_Mesh0;
+    [SerializeField] private Mesh m_Mesh1;
     [SerializeField] private bool m_ConvergeToPoint;
     [SerializeField] private bool m_UseCustomPointOfConvergence;
-    [SerializeField] private Vector4 m_PointOfConvergence = new Vector4 (0, 0, 0, 1);
+    [SerializeField] private Vector4 m_PointOfConvergence = new Vector4(0, 0, 0, 1);
 
-    [SerializeField] private Transform4D m_TransformEnd; //unused currently
+    [SerializeField] private Transform4D m_TransformStart;
+    [SerializeField] private Transform4D m_TransformEnd;
 
-    void Start()
+    // Deprecated: Old reference was to Transform4D, now we reference MeshRenderer4D directly.
+    // Kept for migration from old scenes.
+    [SerializeField, HideInInspector]
+    [FormerlySerializedAs("m_transform")]
+    private Transform4D m_DeprecatedTransform;
+
+    /// <summary>
+    /// The MeshRenderer4D to assign the composite mesh to.
+    /// </summary>
+    public MeshRenderer4D meshRenderer4D
     {
+        get => m_MeshRenderer4D;
+        set => m_MeshRenderer4D = value;
+    }
+
+    private void OnValidate()
+    {
+        MigrateFromDeprecatedTransform();
+        EnsureTransforms();
+    }
+
+    private void Start()
+    {
+        MigrateFromDeprecatedTransform();
+        EnsureTransforms();
         CompositeMesh();
     }
 
     /// <summary>
-    /// Composites mesh0 and mesh1 into a 4D mesh and assigns it to the Transform4D component.
+    /// Adds Transform4D components to this GameObject for m_TransformStart and m_TransformEnd if meshes are assigned but transforms are null.
+    /// </summary>
+    private void EnsureTransforms()
+    {
+        if (m_Mesh0 != null && m_TransformStart == null)
+        {
+            m_TransformStart = gameObject.AddComponent<Transform4D>();
+            Debug.Log($"Added Transform4D component (Start) to '{gameObject.name}'");
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
+
+        if (m_Mesh1 != null && m_TransformEnd == null && !m_ConvergeToPoint)
+        {
+            m_TransformEnd = gameObject.AddComponent<Transform4D>();
+            Debug.Log($"Added Transform4D component (End) to '{gameObject.name}'");
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Migrates from old m_transform (Transform4D) reference to m_MeshRenderer4D.
+    /// This runs on validate and start to handle both editor and runtime migration.
+    /// </summary>
+    private void MigrateFromDeprecatedTransform()
+    {
+        if (m_DeprecatedTransform != null && m_MeshRenderer4D == null)
+        {
+            // Try to find the MeshRenderer4D on the same object as the old Transform4D reference
+            m_MeshRenderer4D = m_DeprecatedTransform.GetComponent<MeshRenderer4D>();
+            if (m_MeshRenderer4D == null)
+            {
+                // Fallback: look on this object
+                m_MeshRenderer4D = GetComponent<MeshRenderer4D>();
+            }
+            m_DeprecatedTransform = null;
+            Debug.Log($"Migrated MeshCompositor4D reference from Transform4D to MeshRenderer4D on '{gameObject.name}'");
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Composites mesh0 and mesh1 into a 4D mesh and assigns it to the MeshRenderer4D component.
     /// </summary>
     public void CompositeMesh()
     {
-        if (m_transform == null)
+        if (m_MeshRenderer4D == null)
         {
-            var trans = gameObject.GetComponent<Transform4D>();
-            if (trans == null)
+            m_MeshRenderer4D = gameObject.GetComponent<MeshRenderer4D>();
+            if (m_MeshRenderer4D == null)
             {
-                trans = gameObject.AddComponent<Transform4D>();
+                m_MeshRenderer4D = gameObject.AddComponent<MeshRenderer4D>();
             }
-            this.m_transform = trans;
         }
-        if (!m_ConvergeToPoint && m_mesh0 != null && m_mesh1 != null)
+
+        if (!m_ConvergeToPoint && m_Mesh0 != null && m_Mesh1 != null)
         {
-            m_transform.mesh4D = CompositeMeshes(m_mesh0, m_mesh1);
-        } else if (m_ConvergeToPoint && m_mesh0 != null)
+            m_MeshRenderer4D.mesh4D = CompositeMeshes(m_Mesh0, m_Mesh1, m_TransformStart, m_TransformEnd);
+        }
+        else if (m_ConvergeToPoint && m_Mesh0 != null)
         {
-            if (m_UseCustomPointOfConvergence) m_transform.mesh4D = CompositeMeshToPoint(m_mesh0, m_PointOfConvergence);
+            if (m_UseCustomPointOfConvergence)
+            {
+                m_MeshRenderer4D.mesh4D = CompositeMeshToPoint(m_Mesh0, m_PointOfConvergence, m_TransformStart);
+            }
             else
             {
-                Assert.NotNull(m_PointOfConvergence);
-                Debug.Log("gothere");
-                m_transform.mesh4D = CompositeMeshToPoint(m_mesh0, null);
-            } 
+                m_MeshRenderer4D.mesh4D = CompositeMeshToPoint(m_Mesh0, null, m_TransformStart);
             }
-    } 
+        }
+    }
 
-    public static Mesh4D CompositeMeshToPoint(Mesh mesh0, Vector4? convergencePointOpt)
+    /// <summary>
+    /// Connect the given 3D mesh to a point at a given convergence point, or the (mesh centerpoint, 1) if no convergence point is present.
+    /// </summary>
+    /// <param name="mesh0"></param>
+    /// <param name="convergencePointOpt"></param>
+    /// <param name="transformStart"></param>
+    /// <returns></returns>
+    public static Mesh4D CompositeMeshToPoint(Mesh mesh0, Vector4? convergencePointOpt, Transform4D transformStart = null)
     {
         Vector4 cP;
         List<Vector3> m0v = new();
         mesh0.GetVertices(m0v);
-        //Average verts to find centerpoint of object (??)
+
         Vector3 avg = new();
         List<Vector4> allVerts = new();
         foreach (Vector3 vert in m0v)
         {
-                avg += vert;
-                allVerts.Add(new Vector4(vert.x, vert.y, vert.z, 0));
+            avg += vert;
+            Vector4 vert4 = new Vector4(vert.x, vert.y, vert.z, 0);
+            if (transformStart != null)
+            {
+                vert4 = transformStart.Transform(vert4);
+            }
+            allVerts.Add(vert4);
         }
         avg /= m0v.Count;
-        if (!convergencePointOpt.HasValue) cP = new Vector4(avg.x, avg.y, avg.z, 1);
-        else cP = convergencePointOpt.Value;
-        
+
+        if (!convergencePointOpt.HasValue)
+        {
+            cP = new Vector4(avg.x, avg.y, avg.z, 1);
+        }
+        else
+        {
+            cP = convergencePointOpt.Value;
+        }
+
         allVerts.Add(new Vector4(cP.x, cP.y, cP.z, cP.w));
         Edge[] edges0 = GetMeshEdges(mesh0);
         Edge[] edgesToPoint = new Edge[edges0.Length + mesh0.vertices.Length];
@@ -79,47 +170,60 @@ public class MeshCompositor4D : MonoBehaviour
         {
             edgesToPoint[edges0.Length + i] = new Edge(i, mesh0.vertices.Length);
         }
+
         Mesh4D m4D = ScriptableObject.CreateInstance<Mesh4D>();
         m4D.Vertices = allVerts.ToArray();
         m4D.Edges = edgesToPoint;
         return m4D;
-
-        
-    }
-    public static Mesh4D CompositeMeshes(Mesh mesh0, Mesh mesh1)
-{
-    Assert.AreEqual(mesh0.vertices.Length, mesh1.vertices.Length);
-    List<Vector3> m0v = new();
-    mesh0.GetVertices(m0v);
-    Debug.Log(m0v.ToCommaSeparatedString());
-    List<Vector3> m1v = new();
-    mesh1.GetVertices(m1v);
-    List<Vector4> allVerts = new();
-    foreach (Vector3 vert in m0v)
-    {
-        allVerts.Add(new Vector4(vert.x, vert.y, vert.z, 0));
     }
 
-    foreach (Vector3 vert in m1v)
+    public static Mesh4D CompositeMeshes(Mesh mesh0, Mesh mesh1, Transform4D transformStart = null, Transform4D transformEnd = null)
     {
-        allVerts.Add(new Vector4(vert.x, vert.y, vert.z, 1));
+        Assert.AreEqual(mesh0.vertices.Length, mesh1.vertices.Length);
+
+        List<Vector3> m0v = new();
+        mesh0.GetVertices(m0v);
+        List<Vector3> m1v = new();
+        mesh1.GetVertices(m1v);
+
+        List<Vector4> allVerts = new();
+        foreach (Vector3 vert in m0v)
+        {
+            Vector4 vert4 = new(vert.x, vert.y, vert.z, 0);
+            if (transformStart != null)
+            {
+                vert4 = transformStart.Transform(vert4);
+            }
+            allVerts.Add(vert4);
+        }
+
+        foreach (Vector3 vert in m1v)
+        {
+            Vector4 vert4 = new(vert.x, vert.y, vert.z, 0);
+            if (transformEnd != null)
+            {
+                vert4 = transformEnd.Transform(vert4);
+            }
+            allVerts.Add(vert4);
+        }
+
+        Edge[] edges0 = GetMeshEdges(mesh0);
+        Edge[] edges1 = GetMeshEdges(mesh1, m0v.Count);
+        int num_edges = edges0.Length;
+        Edge[] allEdges = new Edge[num_edges * 2 + m0v.Count];
+        edges0.CopyTo(allEdges, 0);
+        edges1.CopyTo(allEdges, num_edges);
+        for (int i = 0; i < m0v.Count; i++)
+        {
+            allEdges[2 * num_edges + i] = new Edge(i, m0v.Count + i);
+        }
+
+        Mesh4D m4D = ScriptableObject.CreateInstance<Mesh4D>();
+        m4D.Vertices = allVerts.ToArray();
+        m4D.Edges = allEdges;
+        return m4D;
     }
 
-    Edge[] edges0 = GetMeshEdges(mesh0);
-    Edge[] edges1 = GetMeshEdges(mesh1, m0v.Count);
-    int num_edges = edges0.Length;
-    Edge[] allEdges = new Edge[num_edges * 2 + m0v.Count];
-    edges0.CopyTo(allEdges, 0);
-    edges1.CopyTo(allEdges, num_edges);
-    for (int i = 0; i < m0v.Count; i++)
-    {
-            allEdges[2*num_edges + i] = new Edge(i, m0v.Count + i);
-    }
-    Mesh4D m4D = ScriptableObject.CreateInstance<Mesh4D>();
-    m4D.Vertices = allVerts.ToArray();
-    m4D.Edges = allEdges;
-    return m4D;
-}
     public static Edge[] GetMeshEdges(Mesh m, int start_idx = 0)
     {
         List<int> triangles = new();
@@ -128,6 +232,7 @@ public class MeshCompositor4D : MonoBehaviour
             Debug.LogWarning("When getting triangles, only accessed submesh 0. You have multiple submeshes, so you should probably check that the output looks correct.");
         }
         m.GetTriangles(triangles, 0);
+
         HashSet<Edge> edges = new();
         for (int i = 0; i < triangles.Count - 3; i += 3)
         {
@@ -139,5 +244,5 @@ public class MeshCompositor4D : MonoBehaviour
             edges.Add(new Edge(v2, v0));
         }
         return edges.ToArray();
-    } 
+    }
 }

@@ -23,18 +23,24 @@ Assets/
 | Class | Purpose |
 |-------|---------|
 | **Mesh4D** | ScriptableObject storing 4D vertices and edges |
-| **Transform4D** | Applies 4D rotation, position, and scale |
-| **MeshRenderer4D** | Slices 4D mesh with hyperplane, outputs 3D mesh |
+| **Transform4D** | Stores and applies 4D rotation, position, and scale (no mesh data) |
+| **MeshRenderer4D** | Owns Mesh4D, applies transforms, slices with hyperplane, outputs 3D mesh |
 | **Plane4D** | Defines slicing hyperplane (normal + offset) |
-| **MeshCompositor4D** | Creates 4D mesh from two 3D meshes stacked along W |
+| **MeshCompositor4D** | Creates 4D mesh from two 3D meshes, assigns to MeshRenderer4D |
 | **Cube4DInitializer** | Factory for tesseracts, spheres, and morphs |
 
 ### Data Flow
 
 ```
-Mesh4D → Transform4D → MeshRenderer4D → MeshFilter → MeshRenderer
-              ↑              ↑
-         (4D transforms)  (Plane4D slice)
+                    MeshRenderer4D
+                    ├── Mesh4D (owns the 4D mesh data)
+                    ├── Transform4D (reference for transforms)
+                    ├── Plane4D (slicing hyperplane)
+                    └── MeshFilter (3D output)
+                           ↓
+                      MeshRenderer (displays 3D slice)
+
+MeshCompositor4D ──────► MeshRenderer4D.mesh4D
 ```
 
 ### Game Logic (`Assets/Scripts/`)
@@ -50,10 +56,11 @@ Mesh4D → Transform4D → MeshRenderer4D → MeshFilter → MeshRenderer
 **Menu:** `GameObject > 4D > Composite Object > Create New`
 
 Or manually:
-1. Add `Transform4D` component
-2. Assign a `Mesh4D` asset
-3. Add `MeshRenderer4D`, `MeshFilter`, `MeshRenderer`
-4. Wire references
+1. Add `Transform4D` component (for 4D transforms)
+2. Add `MeshRenderer4D` component (owns mesh data, does slicing)
+3. Assign a `Mesh4D` asset to MeshRenderer4D
+4. Add `MeshFilter`, `MeshRenderer` for display
+5. Wire references
 
 ### 4D Rotation
 
@@ -74,6 +81,20 @@ Transform4D uses 6 rotation planes via `Euler4`:
 |------|----------|
 | Transform4D.cs | `Assets/4d try/` |
 | MeshRenderer4D.cs | `Assets/4d try/` |
+| MeshCompositor4D.cs | `Assets/4d try/` |
 | Plane4D.cs | `Assets/4d try/` |
 | GameManager.cs | `Assets/Scripts/` |
 | Object4DSetup.cs | `Assets/Editor/` |
+
+## Migration Notes
+
+### Mesh4D Ownership Change (composite-cont branch)
+
+**Previous architecture:** `Transform4D` owned `Mesh4D`
+**Current architecture:** `MeshRenderer4D` owns `Mesh4D`
+
+Migration is automatic via `OnValidate()`:
+- **MeshRenderer4D** pulls `mesh4D` from `Transform4D.deprecatedMesh4D` if present
+- **MeshCompositor4D** migrates old `m_transform` reference to `m_MeshRenderer4D`
+
+When opening old scenes, migration runs automatically. Save the scene to persist changes.
