@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 public class Tetrahedron
 {
     private const float EPS = 1e-6f;
@@ -24,27 +25,28 @@ public class Tetrahedron
         vertices = new Vector4[]{i, t.vertices[0], t.vertices[1], t.vertices[2]};
     }
 
-    public Triangle[] Intersect(Plane4D plane)
+    public Triangle[] Intersect(Plane4D plane, SlicingWorldState world)
     {
-        HashSet<Vector3> verts = new(); //TODO FLOATING POINT PRECISION EXTREME BUG???? 
+        HashSet<Vector3> verts = new(); //TODO FLOATING POINT PRECISION EXTREME BUG???? AAAA
         int sum = 0;
         foreach (Edge e in edges)
         {
             sum += Intersection(vertices[e.Index0], vertices[e.Index1], plane, verts);
         }
+        if (verts.Count == 1) return new Triangle[0];
         Debug.Assert(verts.Count == 0 || verts.Count == 3 || verts.Count == 4);
         if (verts.Count == 0) return new Triangle[0];
         List<Vector3> l = verts.ToList();
         if (verts.Count == 3) {
-            Triangle t = new(l[0], l[1], l[2]);
-            t.MakeFacing(false);
+            Triangle t = new(l[0], l[1], l[2], world.camera_fwd);
+            t.MakeFacing(true);
             return new Triangle[1]{t};
         }
         //TODO DOES THIS FIX REALLY WORK
         else {
             Debug.Log("gothere");
-            Triangle t1 = new(l[0], l[1], l[2]);
-            Triangle t2 = new (l[2], l[3], l[1]);
+            Triangle t1 = new(l[0], l[1], l[2], world.camera_fwd);
+            Triangle t2 = new (l[2], l[3], l[1], world.camera_fwd);
             t1.MakeFacing(true);
             t2.MakeFacing(true);
             return new Triangle[2]{t1, t2};

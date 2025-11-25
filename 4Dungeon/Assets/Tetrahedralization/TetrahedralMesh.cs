@@ -13,7 +13,7 @@ public class TetrahedralMesh
     //     tetrs = Tetrahedralize(m);
     // }
 
-    public Mesh Slice(Plane4D p)
+    public Mesh Slice(Plane4D p, SlicingWorldState world)
     {
         /**Outline.... 
             - Calculate the intersections for each tetrahedron with the plane
@@ -26,7 +26,7 @@ public class TetrahedralMesh
         List<int> tri_inds = new();
         foreach (Tetrahedron tet in tetrs)
         {
-            Triangle[] t = tet.Intersect(p);
+            Triangle[] t = tet.Intersect(p, world);
             for (int i = 0; i < t.Length; i++)
             {
                 verts.Add(t[i].vertices[0]);
