@@ -25,7 +25,7 @@ public class Tetrahedron
         vertices = new Vector4[]{i, t.vertices[0], t.vertices[1], t.vertices[2]};
     }
 
-    public Triangle[] Intersect(Plane4D plane, SlicingWorldState world)
+    public Triangle[] Intersect(Plane4D plane, Camera cam)
     {
         HashSet<Vector3> verts = new(); //TODO FLOATING POINT PRECISION EXTREME BUG???? AAAA
         int sum = 0;
@@ -38,17 +38,14 @@ public class Tetrahedron
         if (verts.Count == 0) return new Triangle[0];
         List<Vector3> l = verts.ToList();
         if (verts.Count == 3) {
-            Triangle t = new(l[0], l[1], l[2], world.camera_fwd);
-            t.MakeFacing(true);
+            Triangle t = new(l[0], l[1], l[2], cam);
             return new Triangle[1]{t};
         }
         //TODO DOES THIS FIX REALLY WORK
         else {
             Debug.Log("gothere");
-            Triangle t1 = new(l[0], l[1], l[2], world.camera_fwd);
-            Triangle t2 = new (l[2], l[3], l[1], world.camera_fwd);
-            t1.MakeFacing(true);
-            t2.MakeFacing(true);
+            Triangle t1 = new(l[0], l[1], l[2], cam);
+            Triangle t2 = new (l[2], l[3], l[1], cam);
             return new Triangle[2]{t1, t2};
         }
 

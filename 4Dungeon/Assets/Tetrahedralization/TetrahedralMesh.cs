@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class TetrahedralMesh
 {
     public Tetrahedron[] tetrs;
+    public Transform transform;
     public TetrahedralMesh(Tetrahedron[] tetrs)
     {
         this.tetrs = tetrs;
@@ -13,7 +16,7 @@ public class TetrahedralMesh
     //     tetrs = Tetrahedralize(m);
     // }
 
-    public Mesh Slice(Plane4D p, SlicingWorldState world)
+    public Mesh Slice(Plane4D p, Camera cam)
     {
         /**Outline.... 
             - Calculate the intersections for each tetrahedron with the plane
@@ -24,9 +27,10 @@ public class TetrahedralMesh
         */
         List<Vector3> verts = new();
         List<int> tri_inds = new();
+        List<Vector3> norms = new();
         foreach (Tetrahedron tet in tetrs)
         {
-            Triangle[] t = tet.Intersect(p, world);
+            Triangle[] t = tet.Intersect(p, cam);
             for (int i = 0; i < t.Length; i++)
             {
                 verts.Add(t[i].vertices[0]);
@@ -36,14 +40,35 @@ public class TetrahedralMesh
                 tri_inds.Add(tri_inds.Count);
                 tri_inds.Add(tri_inds.Count);
                 tri_inds.Add(tri_inds.Count);
+                norms.Add(t[i].normal);
+                norms.Add(t[i].normal);
+                norms.Add(t[i].normal);
             }
         }
 
         Mesh outputMesh = new Mesh();
         outputMesh.SetVertices(verts);
         outputMesh.SetTriangles(tri_inds.ToArray(), 0);
-        outputMesh.RecalculateNormals();
+        outputMesh.SetNormals(norms);
+        // outputMesh.RecalculateNormals();
+        // outputMesh.RecalculateTangents();
+        // DebugCompareNorms(norms, outputMesh.normals);
+        // outputMesh.RecalculateNormals();
+        // CompareTrianglesAndNormals()
         return outputMesh;
+    }
+
+    private void DebugCompareNorms(List<Vector3> calc_norms, Vector3[] unity_norms)
+    {
+        bool same = true;
+        for (int i = 0; i < unity_norms.Length; i++)
+        {
+            if (calc_norms[i] != unity_norms[i]) {
+                Debug.Log($"Yours: {calc_norms[i]}, Unity: {unity_norms[i]}");
+                same = false;
+            }
+        }
+        Debug.Log($"Were your normals the same as unity's? {same}");
     }
     // /// <summary>
     // /// Expect m to be a cell of a regular polytop with faces divided into triangles:::::: super change this TODO extreme

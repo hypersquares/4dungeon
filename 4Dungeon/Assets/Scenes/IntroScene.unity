@@ -684,7 +684,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 9347
+  m_ColorTemperature: 6337
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -2211,6 +2211,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1051104121059767861, guid: e3f38380408b2a647864cf7a11d48c05, type: 3}
+      propertyPath: slicingPlane.m_Offset
+      value: 2.12
+      objectReference: {fileID: 0}
     - target: {fileID: 2121673765497990916, guid: e3f38380408b2a647864cf7a11d48c05, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.08236

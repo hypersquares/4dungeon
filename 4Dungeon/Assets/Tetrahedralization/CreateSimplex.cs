@@ -21,21 +21,15 @@ public class CreateSimplex : MonoBehaviour
         if (m_Debug4D) DrawDebug(t);
         m_Filter = gameObject.GetComponent<MeshFilter>();
 #if UNITY_EDITOR
-        SlicingWorldState worldState;
+        Camera worldCam;
         var sceneCamera = SceneViewCameraProvider.currentSceneViewCamera;
-        worldState = new(Vector3.forward);
-        if (sceneCamera != null) worldState = new(sceneCamera.transform.forward);
+        worldCam = Camera.main;
+        if (sceneCamera != null) worldCam = sceneCamera;
         else Debug.LogWarning("Scene camera is null. But that's probably because the scene only just loaded.");
 #endif
-        if (Application.isPlaying) worldState = new(Camera.main.transform.forward);
-        m_Mesh = t.Slice(m_Plane, worldState);
+        if (Application.isPlaying) worldCam = Camera.main;
+        m_Mesh = t.Slice(m_Plane, worldCam);
         m_Filter.mesh = m_Mesh;
-// #if UNITY_EDITOR 
-//         // Material mat = GetComponent<MeshRenderer>().material;
-//         Material mat = new(Shader.Find("Standard"));
-//         mat.SetPass(0);
-//         Graphics.DrawMeshNow(m_Mesh, gameObject.transform.position, gameObject.transform.rotation, 0);
-// #endif
     }
 
     void DrawDebug(TetrahedralMesh t)
