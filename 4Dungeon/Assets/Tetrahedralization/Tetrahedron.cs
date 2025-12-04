@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using System;
+using Mono.Cecil;
+using System.Runtime.InteropServices.WindowsRuntime;
 public class Tetrahedron
 {
     private const float EPS = 1e-6f;
@@ -33,7 +36,10 @@ public class Tetrahedron
         {
             sum += Intersection(vertices[e.Index0], vertices[e.Index1], plane, verts);
         }
-        if (verts.Count == 1) return new Triangle[0];
+        if (verts.Count == 1)  {
+            Debug.LogWarning("we had an intersection output one vertex. just a heads up bro");
+            return new Triangle[0];
+        }
         Debug.Assert(verts.Count == 0 || verts.Count == 3 || verts.Count == 4);
         if (verts.Count == 0) return new Triangle[0];
         List<Vector3> l = verts.ToList();
@@ -43,11 +49,37 @@ public class Tetrahedron
         }
         //TODO DOES THIS FIX REALLY WORK
         else {
-            Debug.Log("gothere");
+            ReorderVerts(l);
             Triangle t1 = new(l[0], l[1], l[2], cam);
-            Triangle t2 = new (l[2], l[3], l[1], cam);
+            Triangle t2 = new (l[1], l[2], l[3], cam);
             return new Triangle[2]{t1, t2};
         }
+
+    }
+
+    /// <summary>
+    /// reorders the given array of four vertices such that 0, 1, 2 and 1, 2, 3 form non-intersecting triangles. 
+    /// </summary>
+    /// <param name="verts"></param>
+    private void ReorderVerts(List<Vector3> verts)
+    {
+        var o1 = Vector3.Cross(verts[1] - verts[2], verts[1] - verts[0]);
+        var o2 = Vector3.Cross(verts[1] - verts[2], verts[1] - verts[3]);
+        if (o1.normalized == o2.normalized)
+        {
+            o1 = Vector3.Cross(verts[2] - verts[0], verts[2] - verts[1]);
+            o2 = Vector3.Cross(verts[2] - verts[0], verts[2] -verts[3]);
+            if (o1.normalized == o2.normalized)
+            {
+                //then e23 must be central. So swap 3 and 1. 
+                (verts[1], verts[3]) = (verts[3], verts[1]);
+            } else
+            {
+                //then e02 is central, so swap 0 and 1. 
+                (verts[0], verts[1]) = (verts[1], verts[0]);
+            }
+        }
+        // if e12 is already central, we are done. 
 
     }
      /// <summary>
@@ -90,5 +122,15 @@ public class Tetrahedron
         Vector4 x = v0 + (v1 - v0) * t;
         out_verts.Add(x);
         return 1;
+    }
+    /// <summary>
+    /// Applies the given affine 4D transform to the vertices of this tetrahedron.
+    /// </summary>
+    public void ApplyTransform(Transform4D transform)
+    {
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = transform.Transform(vertices[i]);
+        }
     }
 }

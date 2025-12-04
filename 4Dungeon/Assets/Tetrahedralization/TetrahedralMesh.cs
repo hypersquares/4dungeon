@@ -7,9 +7,15 @@ public class TetrahedralMesh
 {
     public Tetrahedron[] tetrs;
     public Transform transform;
+
     public TetrahedralMesh(Tetrahedron[] tetrs)
     {
         this.tetrs = tetrs;
+    }
+    public TetrahedralMesh(Tetrahedron[] tetrs, Transform4D transform)
+    {
+        this.tetrs = tetrs;
+        this.ApplyTransform(transform);
     }
     // public TetrahedralMesh(Mesh m)
     // {
@@ -51,10 +57,8 @@ public class TetrahedralMesh
         outputMesh.SetTriangles(tri_inds.ToArray(), 0);
         outputMesh.SetNormals(norms);
         // outputMesh.RecalculateNormals();
-        // outputMesh.RecalculateTangents();
+        outputMesh.RecalculateTangents();
         // DebugCompareNorms(norms, outputMesh.normals);
-        // outputMesh.RecalculateNormals();
-        // CompareTrianglesAndNormals()
         return outputMesh;
     }
 
@@ -64,11 +68,23 @@ public class TetrahedralMesh
         for (int i = 0; i < unity_norms.Length; i++)
         {
             if (calc_norms[i] != unity_norms[i]) {
-                Debug.Log($"Yours: {calc_norms[i]}, Unity: {unity_norms[i]}");
+                Debug.LogWarning($"Yours: {calc_norms[i]}, Unity: {unity_norms[i]}");
                 same = false;
             }
         }
         Debug.Log($"Were your normals the same as unity's? {same}");
+    }
+    
+    /// <summary>
+    /// Applies the given Transform4D to the tetrahedra of this mesh.
+    /// </summary>
+    /// <param name="transform"></param>
+    public void ApplyTransform(Transform4D transform)
+    {
+        foreach (var tetr in tetrs)
+        {
+            tetr.ApplyTransform(transform);
+        }
     }
     // /// <summary>
     // /// Expect m to be a cell of a regular polytop with faces divided into triangles:::::: super change this TODO extreme
