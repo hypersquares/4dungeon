@@ -45,9 +45,9 @@ MeshCompositor4D ──────► MeshRenderer4D.mesh4D
 
 ### Game Logic (`Assets/Scripts/`)
 
-- **GameManager** - Singleton managing W coordinate (Q/E keys)
+- **GameManager** - Singleton managing W coordinate and slicing plane offset (Q/E keys)
 - **ChangeW / ListenToW** - Scale objects based on W value
-- **PlayerMovement / PlayerCamera** - First-person controls
+- **FlyingPlayerMover** - Levitating first-person controller
 
 ## Quick Start
 
@@ -84,6 +84,7 @@ Transform4D uses 6 rotation planes via `Euler4`:
 | MeshCompositor4D.cs | `Assets/4d try/` |
 | Plane4D.cs | `Assets/4d try/` |
 | GameManager.cs | `Assets/Scripts/` |
+| PlayerMovement.cs | `Assets/Scripts/` |
 | Object4DSetup.cs | `Assets/Editor/` |
 
 ## Migration Notes

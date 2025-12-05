@@ -74,15 +74,8 @@ public class MeshRenderer4D : MonoBehaviour
         get => m_Debug4D;
         set => m_Debug4D = value;
     }
-
-    private void OnValidate()
-    {
-        MigrateFromTransform4D();
-    }
-
     private void Start()
     {
-        MigrateFromTransform4D();
 
         if (m_Transform4D == null)
         {
@@ -111,23 +104,6 @@ public class MeshRenderer4D : MonoBehaviour
         Intersect();
     }
 
-    /// <summary>
-    /// Migrates mesh4D data from Transform4D (old location) to MeshRenderer4D (new location).
-    /// This runs on validate and start to handle both editor and runtime migration.
-    /// </summary>
-    private void MigrateFromTransform4D()
-    {
-        if (m_Mesh4D == null && m_Transform4D != null && m_Transform4D.deprecatedMesh4D != null)
-        {
-            m_Mesh4D = m_Transform4D.deprecatedMesh4D;
-            m_Transform4D.deprecatedMesh4D = null;
-            Debug.Log($"Migrated Mesh4D from Transform4D to MeshRenderer4D on '{gameObject.name}'");
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-            UnityEditor.EditorUtility.SetDirty(m_Transform4D);
-#endif
-        }
-    }
 
     //private void OnEnable()
     //{

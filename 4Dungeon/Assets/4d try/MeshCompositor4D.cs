@@ -45,15 +45,8 @@ public class MeshCompositor4D : MonoBehaviour
         set => m_MeshRenderer4D = value;
     }
 
-    private void OnValidate()
-    {
-        MigrateFromDeprecatedTransform();
-        EnsureTransforms();
-    }
-
     private void Start()
     {
-        MigrateFromDeprecatedTransform();
         EnsureTransforms();
         CacheTransformValues();
         CompositeMesh();
@@ -153,28 +146,6 @@ public class MeshCompositor4D : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Migrates from old m_transform (Transform4D) reference to m_MeshRenderer4D.
-    /// This runs on validate and start to handle both editor and runtime migration.
-    /// </summary>
-    private void MigrateFromDeprecatedTransform()
-    {
-        if (m_DeprecatedTransform != null && m_MeshRenderer4D == null)
-        {
-            // Try to find the MeshRenderer4D on the same object as the old Transform4D reference
-            m_MeshRenderer4D = m_DeprecatedTransform.GetComponent<MeshRenderer4D>();
-            if (m_MeshRenderer4D == null)
-            {
-                // Fallback: look on this object
-                m_MeshRenderer4D = GetComponent<MeshRenderer4D>();
-            }
-            m_DeprecatedTransform = null;
-            Debug.Log($"Migrated MeshCompositor4D reference from Transform4D to MeshRenderer4D on '{gameObject.name}'");
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(this);
-#endif
-        }
-    }
 
     /// <summary>
     /// Composites mesh0 and mesh1 into a 4D mesh and assigns it to the MeshRenderer4D component.

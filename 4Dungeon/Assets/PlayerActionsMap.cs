@@ -221,6 +221,45 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""myExtremePlayer"",
+            ""id"": ""b8a078ea-b70c-422c-8be9-cad52a9e007b"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""1133892b-29c3-4f8e-961a-9cc37d1e2829"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9dfa687a-847a-487c-83bc-885c9824d9b3"",
+                    ""path"": ""w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""972c68d6-288e-41b9-a1a3-66c6b427f41d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -291,11 +330,15 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        // myExtremePlayer
+        m_myExtremePlayer = asset.FindActionMap("myExtremePlayer", throwIfNotFound: true);
+        m_myExtremePlayer_Newaction = m_myExtremePlayer.FindAction("New action", throwIfNotFound: true);
     }
 
     ~@PlayerActionsMap()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerActionsMap.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_myExtremePlayer.enabled, "This will cause a leak and performance issues, PlayerActionsMap.myExtremePlayer.Disable() has not been called.");
     }
 
     /// <summary>
@@ -485,6 +528,102 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
+
+    // myExtremePlayer
+    private readonly InputActionMap m_myExtremePlayer;
+    private List<IMyExtremePlayerActions> m_MyExtremePlayerActionsCallbackInterfaces = new List<IMyExtremePlayerActions>();
+    private readonly InputAction m_myExtremePlayer_Newaction;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "myExtremePlayer".
+    /// </summary>
+    public struct MyExtremePlayerActions
+    {
+        private @PlayerActionsMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MyExtremePlayerActions(@PlayerActionsMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "myExtremePlayer/Newaction".
+        /// </summary>
+        public InputAction @Newaction => m_Wrapper.m_myExtremePlayer_Newaction;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_myExtremePlayer; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MyExtremePlayerActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MyExtremePlayerActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MyExtremePlayerActions" />
+        public void AddCallbacks(IMyExtremePlayerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MyExtremePlayerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MyExtremePlayerActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MyExtremePlayerActions" />
+        private void UnregisterCallbacks(IMyExtremePlayerActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MyExtremePlayerActions.UnregisterCallbacks(IMyExtremePlayerActions)" />.
+        /// </summary>
+        /// <seealso cref="MyExtremePlayerActions.UnregisterCallbacks(IMyExtremePlayerActions)" />
+        public void RemoveCallbacks(IMyExtremePlayerActions instance)
+        {
+            if (m_Wrapper.m_MyExtremePlayerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MyExtremePlayerActions.AddCallbacks(IMyExtremePlayerActions)" />
+        /// <seealso cref="MyExtremePlayerActions.RemoveCallbacks(IMyExtremePlayerActions)" />
+        /// <seealso cref="MyExtremePlayerActions.UnregisterCallbacks(IMyExtremePlayerActions)" />
+        public void SetCallbacks(IMyExtremePlayerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MyExtremePlayerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MyExtremePlayerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MyExtremePlayerActions" /> instance referencing this action map.
+    /// </summary>
+    public MyExtremePlayerActions @myExtremePlayer => new MyExtremePlayerActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -578,5 +717,20 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "myExtremePlayer" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MyExtremePlayerActions.AddCallbacks(IMyExtremePlayerActions)" />
+    /// <seealso cref="MyExtremePlayerActions.RemoveCallbacks(IMyExtremePlayerActions)" />
+    public interface IMyExtremePlayerActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }
