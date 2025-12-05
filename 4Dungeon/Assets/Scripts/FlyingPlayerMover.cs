@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class FlyingPlayerMover : MonoBehaviour
@@ -14,6 +15,8 @@ public class FlyingPlayerMover : MonoBehaviour
 
     [Header("Camera Look")]
     [SerializeField] private float mouseSensitivity = 2f;
+
+    
 
     private float yaw;
     private float pitch;

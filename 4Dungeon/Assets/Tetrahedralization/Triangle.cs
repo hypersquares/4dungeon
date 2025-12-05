@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 /// <summary>
 /// A triangle. Note that while the vertices are stored as Vector4s, they should be thought of as Vector3s. 
@@ -16,7 +17,7 @@ public class Triangle
         vertices = new Vector4[]{i, j, k};
         this.cam = camera;
         // this.FOV = camera.fieldOfView
-        this.normal = MakeFacing(vertices, camera, front);
+        this.normal = CorrectFacing(vertices, camera);
     }
 
 
@@ -29,20 +30,11 @@ public class Triangle
     /// </summary>
     /// <param name="front"></param>
     /// <returns>computed normal vector</returns>
-    private Vector3 MakeFacing(Vector4[] verts, Camera cam, bool front)
+    private Vector3 CorrectFacing(Vector4[] verts, Camera cam)
     {
-        Vector3 camera_fwd = cam.transform.forward;
-        Vector3[] temp_verts = new Vector3[3];
-        /** Adjust calculation for camera perspective... */
         float sign = front ? 1f : -1f;
-        for (int i = 0; i < temp_verts.Length; i++)
-        {
-            // temp_verts[i] = mtx.MultiplyPoint3x4(verts[i]);
-            temp_verts[i] = verts[i];
-        }
-        // Debug.Log(temp_verts.ToCommaSeparatedString());
-        Vector3 normal = Vector3.Cross(temp_verts[1] - temp_verts[0], temp_verts[2] - temp_verts[0]).normalized;
-        if(Vector3.Dot(normal, camera_fwd) * sign > 0)
+        Vector3 normal = Vector3.Cross(verts[1] - verts[0], verts[2] - verts[0]).normalized;
+        if (Vector3.Dot(normal, (Vector3) verts[0] - cam.transform.position) >= 0f)
         {
             this.vertices = new Vector4[]{verts[0], verts[2], verts[1]};
             normal = -1 * normal;
