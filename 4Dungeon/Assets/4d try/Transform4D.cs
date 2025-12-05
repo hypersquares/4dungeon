@@ -23,23 +23,7 @@ public class Transform4D : MonoBehaviour
 		get => m_Label;
 		set => m_Label = value;
 	}
-
-	// Deprecated: Mesh4D has been moved to MeshRenderer4D.
-	// Kept for migration from old scenes - MeshRenderer4D.OnValidate will pull this data.
-	[SerializeField, HideInInspector]
-	[FormerlySerializedAs("mesh4D")]
-	private Mesh4D m_DeprecatedMesh4D;
-
-	/// <summary>
-	/// Deprecated: Use MeshRenderer4D.mesh4D instead.
-	/// This property exists only for migration purposes.
-	/// </summary>
-	public Mesh4D deprecatedMesh4D
-	{
-		get => m_DeprecatedMesh4D;
-		set => m_DeprecatedMesh4D = value;
-	}
-
+	
 	private Matrix4x4 m_RotationMatrix;
 
 	private void Start()

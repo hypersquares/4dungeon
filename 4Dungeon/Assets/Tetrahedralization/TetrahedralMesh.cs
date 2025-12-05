@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.ProBuilder;
 
 public class TetrahedralMesh
@@ -34,14 +38,19 @@ public class TetrahedralMesh
         List<Vector3> verts = new();
         List<int> tri_inds = new();
         List<Vector3> norms = new();
+        List<Color> colors = new();
+        Func<Vector4, Color> VertexToColor = v => Color.Lerp(Color.white, Color.black, (v[3] + 2) / 4);
         foreach (Tetrahedron tet in tetrs)
         {
             Triangle[] t = tet.Intersect(p, cam);
             for (int i = 0; i < t.Length; i++)
             {
                 verts.Add(t[i].vertices[0]);
+                colors.Add(VertexToColor(t[i].vertices[0]));
                 verts.Add(t[i].vertices[1]);
+                colors.Add(VertexToColor(t[i].vertices[1]));                
                 verts.Add(t[i].vertices[2]);
+                colors.Add(VertexToColor(t[i].vertices[2]));
 
                 tri_inds.Add(tri_inds.Count);
                 tri_inds.Add(tri_inds.Count);
@@ -56,6 +65,7 @@ public class TetrahedralMesh
         outputMesh.SetVertices(verts);
         outputMesh.SetTriangles(tri_inds.ToArray(), 0);
         outputMesh.SetNormals(norms);
+        outputMesh.SetColors(colors);
         // outputMesh.RecalculateNormals();
         outputMesh.RecalculateTangents();
         // DebugCompareNorms(norms, outputMesh.normals);

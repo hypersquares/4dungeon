@@ -30,7 +30,7 @@ public class Tetrahedron
 
     public Triangle[] Intersect(Plane4D plane, Camera cam)
     {
-        HashSet<Vector3> verts = new(); //TODO FLOATING POINT PRECISION EXTREME BUG???? AAAA
+        HashSet<Vector4> verts = new(); //TODO FLOATING POINT PRECISION EXTREME BUG???? AAAA
         int sum = 0;
         foreach (Edge e in edges)
         {
@@ -42,7 +42,7 @@ public class Tetrahedron
         }
         Debug.Assert(verts.Count == 0 || verts.Count == 3 || verts.Count == 4);
         if (verts.Count == 0) return new Triangle[0];
-        List<Vector3> l = verts.ToList();
+        List<Vector4> l = verts.ToList();
         if (verts.Count == 3) {
             Triangle t = new(l[0], l[1], l[2], cam);
             return new Triangle[1]{t};
@@ -61,7 +61,7 @@ public class Tetrahedron
     /// reorders the given array of four vertices such that 0, 1, 2 and 1, 2, 3 form non-intersecting triangles. 
     /// </summary>
     /// <param name="verts"></param>
-    private void ReorderVerts(List<Vector3> verts)
+    private void ReorderVerts(List<Vector4> verts)
     {
         var o1 = Vector3.Cross(verts[1] - verts[2], verts[1] - verts[0]);
         var o2 = Vector3.Cross(verts[1] - verts[2], verts[1] - verts[3]);
@@ -86,7 +86,7 @@ public class Tetrahedron
     /// Computes intersection of a line segment with the hyperplane.
     /// Returns the number of intersection points added. TODO Untested?
     /// </summary>
-    private int Intersection(Vector4 v0, Vector4 v1, Plane4D plane, HashSet<Vector3> out_verts)
+    private int Intersection(Vector4 v0, Vector4 v1, Plane4D plane, HashSet<Vector4> out_verts)
     {
         float d0 = Vector4.Dot(plane.normal, v0 - plane.point);
         float d1 = Vector4.Dot(plane.normal, v1 - plane.point);

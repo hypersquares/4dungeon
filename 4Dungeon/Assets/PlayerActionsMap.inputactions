@@ -135,6 +135,45 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "myExtremePlayer",
+            "id": "b8a078ea-b70c-422c-8be9-cad52a9e007b",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "1133892b-29c3-4f8e-961a-9cc37d1e2829",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9dfa687a-847a-487c-83bc-885c9824d9b3",
+                    "path": "w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "972c68d6-288e-41b9-a1a3-66c6b427f41d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
