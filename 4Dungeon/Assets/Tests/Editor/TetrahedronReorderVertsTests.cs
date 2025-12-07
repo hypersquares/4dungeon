@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
-
+using Tetrahedron = Assets.Tetrahedralization.Old.Tetrahedron;
 public class TetrahedronReorderVertsTests
 {
     private const float k_Epsilon = 0.0001f;

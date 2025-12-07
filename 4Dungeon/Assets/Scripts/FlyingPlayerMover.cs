@@ -16,7 +16,7 @@ public class FlyingPlayerMover : MonoBehaviour
     [Header("Camera Look")]
     [SerializeField] private float mouseSensitivity = 2f;
 
-    
+    public UnityEvent<float> WChanged = new();
 
     private float yaw;
     private float pitch;

@@ -32,7 +32,6 @@ public class Triangle
     /// <returns>computed normal vector</returns>
     private Vector3 CorrectFacing(Vector4[] verts, Camera cam)
     {
-        float sign = front ? 1f : -1f;
         Vector3 normal = Vector3.Cross(verts[1] - verts[0], verts[2] - verts[0]).normalized;
         if (Vector3.Dot(normal, (Vector3) verts[0] - cam.transform.position) >= 0f)
         {
