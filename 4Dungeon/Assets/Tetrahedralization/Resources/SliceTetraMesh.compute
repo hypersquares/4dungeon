@@ -1,0 +1,29 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+struct Tetrahedron { 
+    int v0, v1, v2, v3;
+}
+
+struct Triangle {
+    int v0, v1, v2;
+}
+
+StructuredBuffer<float4> Vertices;
+StructuredBuffer<Tetrahedron> Tetrahedra;
+
+float4 planeNormal;
+float planeOffset;
+
+AppendStructuredBuffer<float4> VerticesOut;
+AppendStructuredBuffer<Triangle> TrianglesOut;
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float4> Results;
+[numthreads(64,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    // int index = id.x
+    VerticesOut.
+}
