@@ -37,7 +37,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7774673417354349070}
+  m_Father: {fileID: 4129566866584440269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3116920027608974131
 MeshFilter:
@@ -117,7 +117,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &890489242018431171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +200,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.5, y: 0.075, z: 0.4, w: -5}
   Scale: {x: 1, y: 0.15, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &2354586514595025611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,9 +220,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: -0.5, y: 0.075, z: 0.4, w: -20}
+  Position: {x: -0.5, y: 0.075, z: 0.4, w: -100}
   Scale: {x: 1, y: 0.15, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &260024717522155562
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +339,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8111734876555512846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +422,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.025, z: 0.4, w: 5}
   Scale: {x: 1, y: 0.05, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &4147278444788079751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,7 +444,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.79, y: 0.025, z: 0.44, w: 2.5}
   Scale: {x: 0.3, y: 0.05, z: 1.23, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &447063488055826520
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,7 +481,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7774673417354349070}
+  m_Father: {fileID: 4129566866584440269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2264743266051504173
 MeshFilter:
@@ -567,7 +561,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3934533528898804380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,7 +644,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.025, z: 0.4, w: -5}
   Scale: {x: 1, y: 0.05, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &4233899007248059519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,9 +664,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: 0.4, y: 0.025, z: 0.4, w: -20}
+  Position: {x: 0.4, y: 0.025, z: 0.4, w: -100}
   Scale: {x: 1, y: 0.05, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &756885273542635660
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +783,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &300804264565127738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,7 +866,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.5, y: 0.075, z: 0.4, w: 5}
   Scale: {x: 1, y: 0.15, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &9168500401515480599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -899,7 +888,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.7, y: 0.075, z: 0.69, w: 2.5}
   Scale: {x: 0.92, y: 0.15, z: 0.71, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &898596220466414267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,7 +1005,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &5824140740127839237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,7 +1088,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.12, y: 0, z: 0.03, w: 3.75}
   Scale: {x: 0.43, y: 0.02, z: -1.12, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &1831585218004396448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1124,7 +1110,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 2.5}
   Scale: {x: 1.16, y: 0.02, z: -1.14, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &1082346507747580491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,8 +1141,8 @@ Transform:
   m_Children:
   - {fileID: 8155236241051158646}
   - {fileID: 6459942607013439700}
-  - {fileID: 3062340166919008394}
-  - {fileID: 7252550895927504904}
+  - {fileID: 1822375334404611910}
+  - {fileID: 7669990931572273219}
   m_Father: {fileID: 638875696008215550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1708601594473287273
@@ -1277,7 +1262,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &4345221181614745864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1361,7 +1345,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 1.5, z: 0, w: 5}
   Scale: {x: 1, y: 1, z: 1, w: 1.95}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &5380962726798963202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,7 +1367,6 @@ MonoBehaviour:
     ZW: 0.83
   Position: {x: -0.12, y: 0, z: 0.03, w: 3.75}
   Scale: {x: 0.43, y: 0.02, z: 1.12, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &1844134361332747584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,7 +1484,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8095572803713666064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1586,7 +1567,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.05, z: -0.5, w: 5}
   Scale: {x: 1, y: 0.1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &1685405600053226780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,9 +1587,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: 0.4, y: 0.05, z: -0.5, w: 20}
+  Position: {x: 0.4, y: 0.05, z: -0.5, w: 100}
   Scale: {x: 1, y: 0.1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &1979270623267234449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,7 +1741,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &1902218282961392532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1846,7 +1824,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.5, y: 0.075, z: 0.4, w: 5}
   Scale: {x: 1, y: 0.15, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &7403719204142918342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,9 +1844,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: -0.5, y: 0.075, z: 0.4, w: 20}
+  Position: {x: -0.5, y: 0.075, z: 0.4, w: 100}
   Scale: {x: 1, y: 0.15, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &2588948721683708833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2020,7 +1996,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &4353754255299446089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2104,7 +2079,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.4, y: 0.1, z: -0.4, w: 5}
   Scale: {x: 1, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &6374447787124672299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,7 +2101,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.84, y: 0.1, z: -0.68, w: 2.5}
   Scale: {x: 0.48, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &2883106237561499533
 GameObject:
   m_ObjectHideFlags: 0
@@ -2245,7 +2218,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8231738388301810760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2329,7 +2301,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.4, y: 0.1, z: -0.4, w: 5}
   Scale: {x: 1, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3041456922061841695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2350,9 +2321,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: -0.4, y: 0.1, z: -0.4, w: 20}
+  Position: {x: -0.4, y: 0.1, z: -0.4, w: 100}
   Scale: {x: 1, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &3169811066048355548
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,7 +2440,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &6347121890372132861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2554,7 +2523,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: -2.5}
   Scale: {x: 1.15, y: 0.02, z: 1.15, w: 1.5}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &5761899110685836490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2577,7 +2545,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: -3, z: 0, w: 0}
   Scale: {x: 1.15, y: 0.02, z: 1.15, w: 1.5}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &4167686862306786958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,7 +2578,7 @@ Transform:
   m_GameObject: {fileID: 4167686862306786958}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.01}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2695,7 +2662,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &6189795214561177981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2779,7 +2745,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 1.5, z: 0, w: 5}
   Scale: {x: 1, y: 1, z: 1, w: 1.95}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3578408435253109752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2800,9 +2765,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: 0, y: 1.5, z: 0, w: 20}
+  Position: {x: 0, y: 1.5, z: 0, w: 100}
   Scale: {x: 1, y: 1, z: 1, w: 1.95}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &4474930030851328478
 GameObject:
   m_ObjectHideFlags: 0
@@ -2920,7 +2884,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3513720310326218215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3004,7 +2967,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.05, z: -0.5, w: -5}
   Scale: {x: 1, y: 0.1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &2692081092808312622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3025,9 +2987,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: 0.4, y: 0.05, z: -0.5, w: -20}
+  Position: {x: 0.4, y: 0.05, z: -0.5, w: -100}
   Scale: {x: 1, y: 0.1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &5010705586410245372
 GameObject:
   m_ObjectHideFlags: 0
@@ -3145,7 +3106,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3069191025811007211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3229,7 +3189,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.025, z: 0.4, w: 5}
   Scale: {x: 1, y: 0.05, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8892831699774964291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3250,9 +3209,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: 0.4, y: 0.025, z: 0.4, w: 20}
+  Position: {x: 0.4, y: 0.025, z: 0.4, w: 100}
   Scale: {x: 1, y: 0.05, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &5125507926717985620
 GameObject:
   m_ObjectHideFlags: 0
@@ -3405,7 +3363,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &7063166614716999086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3489,7 +3446,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.05, z: -0.5, w: 5}
   Scale: {x: 1, y: 0.1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3341541730111645421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3512,7 +3468,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.12, y: 0.08, z: -1.01, w: 2.5}
   Scale: {x: 1, y: 0.25, z: 0.63, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &5863848821136521950
 GameObject:
   m_ObjectHideFlags: 0
@@ -3665,7 +3620,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3856705254397073985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3749,7 +3703,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.4, y: 0.1, z: -0.4, w: -5}
   Scale: {x: 1, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3336888740030883302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3772,7 +3725,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.84, y: 0.1, z: -0.68, w: -2.5}
   Scale: {x: 0.48, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &6107071615709323266
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,7 +3842,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &7795467615456357230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3974,7 +3925,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.4, y: 0.1, z: -0.4, w: -5}
   Scale: {x: 1, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3664173913520995489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3995,9 +3945,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: -0.4, y: 0.1, z: -0.4, w: -20}
+  Position: {x: -0.4, y: 0.1, z: -0.4, w: -100}
   Scale: {x: 1, y: 0.2, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &6137230642810326647
 GameObject:
   m_ObjectHideFlags: 0
@@ -4149,7 +4098,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8470321346201608758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4233,7 +4181,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 2.5}
   Scale: {x: 1.15, y: 0.02, z: 1.15, w: 1.5}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &4018070835167685631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4256,7 +4203,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: -3, z: 0, w: 0}
   Scale: {x: 1.15, y: 0.02, z: 1.15, w: 1.5}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &6960117526283891287
 GameObject:
   m_ObjectHideFlags: 0
@@ -4288,8 +4234,8 @@ Transform:
   m_Children:
   - {fileID: 6985049459132074956}
   - {fileID: 2282226313312055581}
-  - {fileID: 1822375334404611910}
-  - {fileID: 7669990931572273219}
+  - {fileID: 3062340166919008394}
+  - {fileID: 7252550895927504904}
   m_Father: {fileID: 638875696008215550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7195593281032646652
@@ -4409,7 +4355,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8174664668516284496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4493,7 +4438,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 1.5, z: 0, w: -5}
   Scale: {x: 1, y: 1, z: 1, w: 1.95}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &1834603901962262020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4516,7 +4460,6 @@ MonoBehaviour:
     ZW: 0.83
   Position: {x: -0.12, y: 0, z: 0.03, w: -3.75}
   Scale: {x: 0.43, y: 0.02, z: 1.12, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &7558304798798331588
 GameObject:
   m_ObjectHideFlags: 0
@@ -4588,7 +4531,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4129566866584440269}
+  m_Father: {fileID: 7774673417354349070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1352324078037774425
 MeshFilter:
@@ -4668,7 +4611,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &8760205080492039138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4752,7 +4694,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.5, y: 0.075, z: 0.4, w: -5}
   Scale: {x: 1, y: 0.15, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &362708557762578769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4775,7 +4716,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.7, y: 0.075, z: 0.69, w: -2.5}
   Scale: {x: 0.92, y: 0.15, z: 0.71, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &8091194980511752729
 GameObject:
   m_ObjectHideFlags: 0
@@ -4893,7 +4833,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &4716556767643944920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4977,7 +4916,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 1.5, z: 0, w: -5}
   Scale: {x: 1, y: 1, z: 1, w: 1.95}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &9137416092833808707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4998,9 +4936,8 @@ MonoBehaviour:
     XW: 0
     YW: 0
     ZW: 0
-  Position: {x: 0, y: 1.5, z: 0, w: -20}
+  Position: {x: 0, y: 1.5, z: 0, w: -100}
   Scale: {x: 1, y: 1, z: 1, w: 1.95}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &8316850825653813544
 GameObject:
   m_ObjectHideFlags: 0
@@ -5118,7 +5055,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &2960984203655335937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5202,7 +5138,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: -0.12, y: 0, z: 0.03, w: -3.75}
   Scale: {x: 0.43, y: 0.02, z: -1.12, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &3851790071687508372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5225,7 +5160,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: -2.5}
   Scale: {x: 1.16, y: 0.02, z: -1.14, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &8475486178626799985
 GameObject:
   m_ObjectHideFlags: 0
@@ -5298,7 +5232,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4129566866584440269}
+  m_Father: {fileID: 7774673417354349070}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6915844351759630092
 MeshFilter:
@@ -5378,7 +5312,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &1462715322372487633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5462,7 +5395,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.025, z: 0.4, w: -5}
   Scale: {x: 1, y: 0.05, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &6412297103552324214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5485,7 +5417,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.79, y: 0.025, z: 0.44, w: -2.5}
   Scale: {x: 0.3, y: 0.05, z: 1.23, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!1 &9079874095971697357
 GameObject:
   m_ObjectHideFlags: 0
@@ -5603,7 +5534,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0, y: 0, z: 0, w: 0}
   Scale: {x: 1, y: 1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &5609130973089322549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5687,7 +5617,6 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.4, y: 0.05, z: -0.5, w: -5}
   Scale: {x: 1, y: 0.1, z: 1, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
 --- !u!114 &1335183777975766587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5710,4 +5639,3 @@ MonoBehaviour:
     ZW: 0
   Position: {x: 0.12, y: 0.08, z: -1.01, w: -2.5}
   Scale: {x: 1, y: 0.25, z: 0.63, w: 1}
-  m_DeprecatedMesh4D: {fileID: 0}
