@@ -34,6 +34,11 @@ public class Transform4D : MonoBehaviour
 	private void Update()
 	{
 		UpdateRotationMatrix();
+		if (gameObject.transform.hasChanged && !gameObject.transform.worldToLocalMatrix.Equals(Matrix4x4.identity))
+        {
+			gameObject.transform.hasChanged = false;
+            Debug.LogError("Node with Transform4D component has a non-identity Transform3D -- make sure to fix this. ");
+		}
 	}
 
 	private void UpdateRotationMatrix()
