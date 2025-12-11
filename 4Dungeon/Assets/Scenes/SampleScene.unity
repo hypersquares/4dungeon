@@ -319,7 +319,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 25, y: 2, z: 25}
-  m_LocalScale: {x: 25, y: 2, z: 25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -335,14 +334,6 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
@@ -410,7 +401,7 @@ MonoBehaviour:
   slicingPlane:
     m_Normal: {x: 0, y: 0, z: 0, w: 1}
     m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: -0.06
+    m_Offset: 0.24
 --- !u!4 &335738145
 Transform:
   m_ObjectHideFlags: 0
@@ -619,7 +610,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1481366898}
+  m_Mesh: {fileID: 1995260646}
 --- !u!33 &1177541667
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -627,7 +618,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177541664}
-  m_Mesh: {fileID: 1481366898}
+  m_Mesh: {fileID: 1995260646}
 --- !u!114 &1177541668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01b476d79b52248b9a9b9a04ec2bc178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Tetrahedralization.Old.CreateSimplex
-  m_Mesh: {fileID: 1481366898}
+  m_Mesh: {fileID: 1995260646}
   m_Plane:
     m_Normal: {x: 0, y: 0, z: 0, w: 1}
     m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
@@ -685,7 +676,7 @@ MonoBehaviour:
   m_Debug4D: 0
   m_DebugTetraMesh: 0
   m_Transform4D: {fileID: 1177541668}
---- !u!43 &1481366898
+--- !u!43 &1995260646
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -697,15 +688,13 @@ Mesh:
   - serializedVersion: 2
     firstByte: 0
     indexCount: 12
-    indexCount: 12
     topology: 0
     baseVertex: 0
     firstVertex: 0
     vertexCount: 12
-    vertexCount: 12
     localAABB:
       m_Center: {x: 0, y: 10, z: 0}
-      m_Extent: {x: 0.92125666, y: 0.92125607, z: 0.92125666}
+      m_Extent: {x: 0.7870931, y: 0.78709316, z: 0.7870931}
   m_Shapes:
     vertices: []
     shapes: []
@@ -723,10 +712,8 @@ Mesh:
   m_KeepIndices: 1
   m_IndexFormat: 0
   m_IndexBuffer: 00000100020003000400050006000700080009000a000b00
-  m_IndexBuffer: 00000100020003000400050006000700080009000a000b00
   m_VertexData:
     serializedVersion: 3
-    m_VertexCount: 12
     m_VertexCount: 12
     m_Channels:
     - stream: 0
@@ -739,10 +726,6 @@ Mesh:
       dimension: 3
     - stream: 0
       offset: 24
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 40
       format: 0
       dimension: 4
     - stream: 0
@@ -790,7 +773,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 672
-    _typelessdata: 7ad76bbf77bd2e417ad76b3f38cd13bf3ecd13bf38cd13bf0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76b3f77bd2e417ad76bbf38cd13bf3ecd13bf38cd13bf0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76b3f894211417ad76b3f38cd13bf3ecd13bf38cd13bf0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76b3f894211417ad76b3f38cd13bf3ecd133f38cd133f0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76b3f77bd2e417ad76bbf38cd13bf3ecd133f38cd133f0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76bbf894211417ad76bbf38cd13bf3ecd133f38cd133f0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76bbf77bd2e417ad76b3f38cd13bf3ecd133f38cd13bf0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76b3f77bd2e417ad76bbf38cd13bf3ecd133f38cd13bf0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76bbf894211417ad76bbf38cd13bf3ecd133f38cd13bf0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76bbf77bd2e417ad76b3f38cd13bf3ecd13bf38cd133f0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76bbf894211417ad76bbf38cd13bf3ecd13bf38cd133f0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f7ad76b3f894211417ad76b3f38cd13bf3ecd13bf38cd133f0000803f00000000000000000000803f0ad7033f0ad7033f0ad7033f0000803f
+    _typelessdata: ef7e49bfef972c41ef7e493f3acd133f39cd133f3acd133f0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e493f11681341ef7e493f3acd133f39cd133f3acd133f0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e493fef972c41ef7e49bf3acd133f39cd133f3acd133f0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e493f11681341ef7e493f3acd133f39cd13bf3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e49bf11681341ef7e49bf3acd133f39cd13bf3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e493fef972c41ef7e49bf3acd133f39cd13bf3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e49bfef972c41ef7e493f3acd13bf39cd133f3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e493fef972c41ef7e49bf3acd13bf39cd133f3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e49bf11681341ef7e49bf3acd13bf39cd133f3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e49bfef972c41ef7e493f3acd133f39cd133f3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e493f11681341ef7e493f3acd133f39cd133f3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803fef7e49bf11681341ef7e49bf3acd133f39cd133f3acd13bf0000803f00000000000000000000803fae47e13eae47e13eae47e13e0000803f
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -845,7 +828,7 @@ Mesh:
     m_UVInfo: 0
   m_LocalAABB:
     m_Center: {x: 0, y: 10, z: 0}
-    m_Extent: {x: 0.92125666, y: 0.92125607, z: 0.92125666}
+    m_Extent: {x: 0.7870931, y: 0.78709316, z: 0.7870931}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30
   m_BakedConvexCollisionMesh: 

@@ -8,7 +8,7 @@ namespace Assets.Tetrahedralization.Old
 public class CreateSimplex : MonoBehaviour
 {
     [SerializeField] private Mesh m_Mesh;
-    [SerializeField] private Plane4D m_Plane;
+    // [SerializeField] private Plane4D m_Plane;
 
     [SerializeField] private bool m_Debug4D;
 
