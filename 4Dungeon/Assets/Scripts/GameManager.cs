@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] private float minW = -10f;
 	[SerializeField] private float maxW = 10f;
-    [SerializeField] private Plane4D slicingPlane = new Plane4D();
+    [SerializeField] public Plane4D slicingPlane = new Plane4D();
     public Vector4 SlicingPlaneNormal { get => slicingPlane.normal; set => slicingPlane.normal = value; }
     public float SlicingPlaneOffset { get => slicingPlane.offset; set => slicingPlane.offset = Mathf.Clamp(value, minW, maxW); }
     public Vector4 SlicingPlanePoint { get => slicingPlane.point; }
