@@ -6,11 +6,15 @@ using UnityEngine.Rendering;
 namespace Assets.Tetrahedralization
 {
 // [ExecuteInEditMode]
+[RequireComponent(typeof(Transform4D))]
 public class TetrahedralMeshSlicer : MonoBehaviour
 {
-    private TetrahedralMesh TetraMesh;
+    public TetrahedralMesh TetraMesh {get; private set;}
 
     [SerializeField] private Material material;
+
+    [SerializeField] private Color m_baseColor = Color.red;
+    [SerializeField] private Color m_FarColor = Color.black;
     ComputeShader shad;
     int kernelIndex; 
 
@@ -20,8 +24,14 @@ public class TetrahedralMeshSlicer : MonoBehaviour
     ComputeBuffer normsOutBuff = null;
     private GraphicsBuffer argsBuffer;
 
+    private Transform4D transform4D;
+
     uint[] args = new uint[] { 0, 1, 0, 0 };
 
+    public void Start()
+    {
+        this.transform4D = gameObject.GetComponent<Transform4D>();
+    }
     //must call this to set mesh
     public void SetMesh(TetrahedralMesh tetMesh)
         {
@@ -60,11 +70,10 @@ public class TetrahedralMeshSlicer : MonoBehaviour
 
     void Update()
     {
-        Camera camera = Camera.main;
-        if (camera != null) Slice(camera);
+        Slice();
     }
 
-        void Slice(Camera camera)
+    void Slice()
     {
         if (TetraMesh.verts == null || TetraMesh.verts.Length == 0 ||
             TetraMesh.tetrs == null || TetraMesh.tetrs.Length == 0)
@@ -82,26 +91,25 @@ public class TetrahedralMeshSlicer : MonoBehaviour
         shad.SetVector("planeNormal", GameManager.Instance.SlicingPlaneNormal);
         shad.SetVector("planePoint", GameManager.Instance.SlicingPlanePoint);
         //optional if we were to use the angle-based sort for fixing winding order
-        shad.SetVector("cameraWorldPos", new Vector4(camera.transform.position.x, camera.transform.position.y, camera.transform.position.z, 1));
+        shad.SetVector("cameraWorldPos", new Vector4(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z, 1));
         shad.SetInt("tetraCount", TetraMesh.tetrs.Length);        
+        //Transform 4d stuffs
+        shad.SetMatrix("rotationMatrix", transform4D.m_RotationMatrix);
+        shad.SetVector("scale", transform4D.Scale);
+        shad.SetVector("position", transform4D.Position);
+
         // Dispatch - one thread per tetrahedron
         // Note that we can handle 64**2 tetrahedra in a single mesh this way.
         int threadGroups = Mathf.CeilToInt(TetraMesh.tetrs.Length / 64.0f);
 
         shad.Dispatch(kernelIndex, threadGroups, 1, 1);
-        
+
         material.SetBuffer("VerticesOut", vOutBuff);
         material.SetBuffer("NormalsOut", normsOutBuff);
-        material.SetColor("_BaseColor", Color.red);
+        material.SetColor("_BaseColor", m_baseColor);
+        material.SetColor("_FarColor", m_FarColor);
         var stink = new uint[] { 0, 1, 0, 0 };
         argsBuffer.GetData(stink);
-
-        Debug.Log(args.ToCommaSeparatedString());
-        uint a = args[0];
-        Vector4[] arr = new Vector4[20];
-        vOutBuff.GetData(arr);
-        Debug.Log(arr.ToCommaSeparatedString());
-        DebugVis(arr);
         // Time for draw call
         Bounds bounds = new(Vector3.zero, Vector3.one * 10000f);
         //set the vertex buff for our custom vert shader
@@ -124,21 +132,7 @@ public class TetrahedralMeshSlicer : MonoBehaviour
                 Debug.DrawLine(Vector3.zero, vec, Color.red, 1, false);
             }
     }
-    void CreateMeshFromSlice(Vector4[] vertices4D, int[] triangles)
-    {
-        if (vertices4D.Length == 0 || triangles.Length == 0) return;
 
-        // Create or update mesh
-        Mesh mesh = new Mesh();
-        mesh.vertices = vertices4D.Select(v => (Vector3)v).ToArray();
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-
-        // Render the mesh (you'll need to set this up based on your needs)
-        // For example: GetComponent<MeshFilter>().mesh = mesh;
-        // Or use Graphics.DrawMesh for immediate rendering
-    }
 
 
 

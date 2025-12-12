@@ -26,9 +26,6 @@ public class CreateSimplex : MonoBehaviour
         slicer.SetMesh(Simplex.GetTetrahedralMesh());
     } 
 
-    void OnEnable() {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -41,6 +38,7 @@ public class CreateSimplex : MonoBehaviour
             else Debug.LogWarning("Scene camera is null. But that's probably because the scene only just loaded.");
         }
 #endif
+        if (slicer.TetraMesh == null) slicer.SetMesh(Simplex.GetTetrahedralMesh());
     }
 }
     

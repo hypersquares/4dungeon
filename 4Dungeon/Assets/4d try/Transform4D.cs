@@ -24,7 +24,7 @@ public class Transform4D : MonoBehaviour
 		set => m_Label = value;
 	}
 	
-	private Matrix4x4 m_RotationMatrix;
+	public Matrix4x4 m_RotationMatrix {get; private set;}
 
 	private void Start()
 	{
