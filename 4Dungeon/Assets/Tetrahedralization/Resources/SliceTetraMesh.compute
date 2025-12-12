@@ -22,7 +22,24 @@ RWBuffer<uint> _Args;
 float4 planeNormal;
 float4 planePoint;
 float4 cameraWorldPos;
+
+//transform stuffs
+float4x4 rotationMatrix;
+float4 scale;
+float4 position;
+
+
+static const Edge tetraEdges[6] = {
+        {0, 1},
+        {0, 2},
+        {0, 3},
+        {1, 2},
+        {2, 3},
+        {3, 1}
+};
+
 int tetraCount;
+
 // Vertices.................
 RWStructuredBuffer<float4> VerticesOut;
 RWBuffer<uint> _Counter;
@@ -47,9 +64,9 @@ void CorrectFacing(in float4 t0, in float4 t1, in float4 t2, out float4 out0, ou
 }
 
 // We assume we get a min of 0 and max of 2 points due to this intersection. 
-void EdgePlaneIntersect(Edge e, inout float4 ptsFrmIntrsct[8], inout int numPoints, inout bool v0Found, inout bool v1Found) {
-    float4 v0 = Vertices[e.e0];
-    float4 v1 = Vertices[e.e1];
+void EdgePlaneIntersect(Edge e, float4 verts[4], inout float4 ptsFrmIntrsct[8], inout int numPoints, inout bool v0Found, inout bool v1Found) {
+    float4 v0 = verts[e.e0];
+    float4 v1 = verts[e.e1];
     float d0 = dot(planeNormal, v0 - planePoint);
     float d1 = dot(planeNormal, v1 - planePoint);
     if (d0 * d1 > EPS * EPS) return; // Same side, no intersection
@@ -73,7 +90,7 @@ void EdgePlaneIntersect(Edge e, inout float4 ptsFrmIntrsct[8], inout int numPoin
 }
 
 
-void Intersect(Edge tetraEdges[6]) {
+void Intersect(float4 verts[4]) {
     float4 ptsFrmIntrsct[8] = {(float4)0, (float4)0, (float4)0, (float4)0, (float4)0, (float4)0, (float4)0, (float4)0};
     int numPoints = 0;
     bool cornersFound[5] = {false, false, false, false, false};
@@ -82,7 +99,7 @@ void Intersect(Edge tetraEdges[6]) {
     for (int i = 0; i < 6; i++) {
         bool v0Found = cornersFound[tetraEdges[i].e0];
         bool v1Found = cornersFound[tetraEdges[i].e1];
-        EdgePlaneIntersect(tetraEdges[i], ptsFrmIntrsct, numPoints, v0Found, v1Found);
+        EdgePlaneIntersect(tetraEdges[i], verts, ptsFrmIntrsct, numPoints, v0Found, v1Found);
         cornersFound[tetraEdges[i].e0] = v0Found;
         cornersFound[tetraEdges[i].e1] = v1Found;
     }
@@ -90,7 +107,7 @@ void Intersect(Edge tetraEdges[6]) {
     if (numPoints == 0) return;
 
     // WE ARE GOING TO ENSURE THAT THERE ARE NO MORE THAN 4 VERTICES. JUST SO ANY RUNTIME BADNESS GIVES SOME VISUAL FEEDBACK
-    numPoints = max(numPoints, 4);
+    numPoints = min(numPoints, 4);
 
     uint idx;
     if (numPoints == 3) { 
@@ -109,10 +126,10 @@ void Intersect(Edge tetraEdges[6]) {
     } else if (numPoints == 4) {  // First we reorder the triangles to be non-intersecting
         float3 o1 = normalize(cross(ptsFrmIntrsct[1] - ptsFrmIntrsct[2], ptsFrmIntrsct[1] - ptsFrmIntrsct[0]));
         float3 o2 = normalize(cross(ptsFrmIntrsct[1] - ptsFrmIntrsct[2], ptsFrmIntrsct[1] - ptsFrmIntrsct[3]));
-        if (all(o1 - o2 < EPS)) { //o1 == o2
+        if (all(abs(o1 - o2) < EPS)) { //o1 == o2
             o1 = normalize(cross(ptsFrmIntrsct[2] - ptsFrmIntrsct[0], ptsFrmIntrsct[2] - ptsFrmIntrsct[1]));
             o2 = normalize(cross(ptsFrmIntrsct[2] - ptsFrmIntrsct[0], ptsFrmIntrsct[2] - ptsFrmIntrsct[3]));
-            if (all(o1 - o2 < EPS)) {
+            if (all(abs(o1 - o2) < EPS)) {
                 float4 tmp = ptsFrmIntrsct[3];
                 ptsFrmIntrsct[3] = ptsFrmIntrsct[1];
                 ptsFrmIntrsct[1] = tmp;
@@ -151,20 +168,24 @@ void Intersect(Edge tetraEdges[6]) {
 
 } 
 
+float4 ApplyTransformation(in float4 vert) {
+    return mul(rotationMatrix, vert) * scale + position;
+}
+
 [numthreads(64,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
     if (id.x >= tetraCount) return;
 
     Tetrahedron tet = Tetrahedra[id.x];
-    Edge tetraEdges[6] = {
-        {tet.v0, tet.v1},
-        {tet.v0, tet.v2},
-        {tet.v0, tet.v3},
-        {tet.v1, tet.v2},
-        {tet.v2, tet.v3},
-        {tet.v3, tet.v1}
+
+    float4 verts[4] = {
+        ApplyTransformation(Vertices[tet.v0]), 
+        ApplyTransformation(Vertices[tet.v1]),
+        ApplyTransformation(Vertices[tet.v2]),
+        ApplyTransformation(Vertices[tet.v3]),
     };
 
-    Intersect(tetraEdges);
+
+    Intersect(verts);
 }
