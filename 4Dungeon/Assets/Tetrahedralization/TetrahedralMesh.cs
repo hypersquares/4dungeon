@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 namespace Assets.Tetrahedralization
 {
+[System.Serializable]
 public class TetrahedralMesh
 {
     public Vector4[] verts;

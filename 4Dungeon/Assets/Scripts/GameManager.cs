@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-
+using Assets.Tetrahedralization;
 [ExecuteInEditMode]
 public class GameManager : MonoBehaviour
 {
@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+	}
+
+	public void SliceSceneMeshes()
+	{
+		// TetrahedralMesh[] tetMeshes = 
 	}
 
 	private void OnDestroy()
