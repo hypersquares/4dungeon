@@ -87,6 +87,21 @@ public class Transform4dEditor : Editor
             MarkDirtyAndRefresh();
         }
 
+        if (GUILayout.Button("Randomize Rotation"))
+        {
+            Euler4 randomRotation = new Euler4
+            {
+                XY = Random.Range(-180f, 180f),
+                YZ = Random.Range(-180f, 180f),
+                XZ = Random.Range(-180f, 180f),
+                XW = Random.Range(-180f, 180f),
+                YW = Random.Range(-180f, 180f),
+                ZW = Random.Range(-180f, 180f)
+            };
+            m_Transform4D.Rotation = randomRotation;
+            MarkDirtyAndRefresh();
+        }
+
         EditorGUI.indentLevel--;
     }
 
