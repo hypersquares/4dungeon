@@ -1,28 +1,170 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSMain
+#define TETRA_NUM_EDGES 6
+#define EPS 1e-6
 
 struct Tetrahedron { 
     int v0, v1, v2, v3;
-}
+};
+
+struct Edge {
+    int e0, e1;
+};
 
 struct Triangle {
     int v0, v1, v2;
-}
+};
 
 StructuredBuffer<float4> Vertices;
 StructuredBuffer<Tetrahedron> Tetrahedra;
+RWBuffer<uint> _Args;
 
 float4 planeNormal;
-float planeOffset;
+float4 planePoint;
+float4 cameraWorldPos;
+int tetraCount;
+// Vertices.................
+RWStructuredBuffer<float4> VerticesOut;
+RWBuffer<uint> _Counter;
+RWStructuredBuffer<float3> NormalsOut;
 
-AppendStructuredBuffer<float4> VerticesOut;
-AppendStructuredBuffer<Triangle> TrianglesOut;
 // Create a RenderTexture with enableRandomWrite flag and set it
 // with cs.SetTexture
-RWStructuredBuffer<float4> Results;
+void CorrectFacing(in float4 t0, in float4 t1, in float4 t2, out float4 out0, out float4 out1, out float4 out2, out float3 normal) {
+    normal = cross((float3) (t1 - t0), (float3)(t2 - t0));
+    normal = normalize(normal);
+    if (dot(normal, (float3)(t0 - cameraWorldPos)) >= 0.0)
+    {
+        out0 = t0;
+        out1 = t2;
+        out2 = t1;
+        normal = -normal;
+    } else {
+        out0 = t0;
+        out1 = t1;
+        out2 = t2;
+    }
+}
+
+// We assume we get a min of 0 and max of 2 points due to this intersection. 
+void EdgePlaneIntersect(Edge e, inout float4 ptsFrmIntrsct[8], inout int numPoints, inout bool v0Found, inout bool v1Found) {
+    float4 v0 = Vertices[e.e0];
+    float4 v1 = Vertices[e.e1];
+    float d0 = dot(planeNormal, v0 - planePoint);
+    float d1 = dot(planeNormal, v1 - planePoint);
+    if (d0 * d1 > EPS * EPS) return; // Same side, no intersection
+    if (abs(d0) < EPS && !v0Found) {  // v0 on plane
+        ptsFrmIntrsct[numPoints] = v0;
+        numPoints++;
+        v0Found = true;
+    }
+    if (abs(d1) < EPS && !v1Found) {  // v1 on plane
+        ptsFrmIntrsct[numPoints] = v1;
+        numPoints++;
+        v1Found = true;
+    }
+    // Only add intersection if edge crosses (neither endpoint on plane)
+    if (abs(d0) >= EPS && abs(d1) >= EPS) {
+        float t = d0 / (d0 - d1);
+        float4 inter = v0 + (v1 - v0) * t;
+        ptsFrmIntrsct[numPoints] = inter;
+        numPoints++;
+    }
+}
+
+
+void Intersect(Edge tetraEdges[6]) {
+    float4 ptsFrmIntrsct[8] = {(float4)0, (float4)0, (float4)0, (float4)0, (float4)0, (float4)0, (float4)0, (float4)0};
+    int numPoints = 0;
+    bool cornersFound[5] = {false, false, false, false, false};
+    // Gather intersection points. We assume that we get a maximum of 4 unique intersection points. 
+    // To ensure this, we must sort and deduplicate the output. 
+    for (int i = 0; i < 6; i++) {
+        bool v0Found = cornersFound[tetraEdges[i].e0];
+        bool v1Found = cornersFound[tetraEdges[i].e1];
+        EdgePlaneIntersect(tetraEdges[i], ptsFrmIntrsct, numPoints, v0Found, v1Found);
+        cornersFound[tetraEdges[i].e0] = v0Found;
+        cornersFound[tetraEdges[i].e1] = v1Found;
+    }
+
+    if (numPoints == 0) return;
+
+    // WE ARE GOING TO ENSURE THAT THERE ARE NO MORE THAN 4 VERTICES. JUST SO ANY RUNTIME BADNESS GIVES SOME VISUAL FEEDBACK
+    numPoints = max(numPoints, 4);
+
+    uint idx;
+    if (numPoints == 3) { 
+        InterlockedAdd(_Args[0], 3, idx);
+        float4 v0;
+        float4 v1;
+        float4 v2;
+        float3 normal;
+        CorrectFacing(ptsFrmIntrsct[0], ptsFrmIntrsct[1], ptsFrmIntrsct[2], v0, v1, v2, normal);
+        VerticesOut[idx] = v0;
+        NormalsOut[idx] = normal;
+        VerticesOut[idx + 1] = v1;
+        NormalsOut[idx + 1] = normal;
+        VerticesOut[idx + 2] = v2;
+        NormalsOut[idx + 2] = normal;
+    } else if (numPoints == 4) {  // First we reorder the triangles to be non-intersecting
+        float3 o1 = normalize(cross(ptsFrmIntrsct[1] - ptsFrmIntrsct[2], ptsFrmIntrsct[1] - ptsFrmIntrsct[0]));
+        float3 o2 = normalize(cross(ptsFrmIntrsct[1] - ptsFrmIntrsct[2], ptsFrmIntrsct[1] - ptsFrmIntrsct[3]));
+        if (all(o1 - o2 < EPS)) { //o1 == o2
+            o1 = normalize(cross(ptsFrmIntrsct[2] - ptsFrmIntrsct[0], ptsFrmIntrsct[2] - ptsFrmIntrsct[1]));
+            o2 = normalize(cross(ptsFrmIntrsct[2] - ptsFrmIntrsct[0], ptsFrmIntrsct[2] - ptsFrmIntrsct[3]));
+            if (all(o1 - o2 < EPS)) {
+                float4 tmp = ptsFrmIntrsct[3];
+                ptsFrmIntrsct[3] = ptsFrmIntrsct[1];
+                ptsFrmIntrsct[1] = tmp;
+            } else {
+                float4 tmp = ptsFrmIntrsct[0];
+                ptsFrmIntrsct[0] = ptsFrmIntrsct[1];
+                ptsFrmIntrsct[1] = tmp;
+            }
+        }
+        // TWO TRIANGLES, SO 6 VERTS MUST BE ADDED!
+        InterlockedAdd(_Args[0], 6, idx);
+        float4 v0;
+        float4 v1;
+        float4 v2;
+        float3 normal;
+        CorrectFacing(ptsFrmIntrsct[0], ptsFrmIntrsct[1], ptsFrmIntrsct[2], v0, v1, v2, normal);
+        VerticesOut[idx] = v0;
+        NormalsOut[idx] = normal;
+        VerticesOut[idx + 1] = v1;
+        NormalsOut[idx + 1] = normal;
+        VerticesOut[idx + 2] = v2;
+        NormalsOut[idx + 2] = normal;
+        float4 v3;
+        float4 v4;
+        float4 v5;
+        float3 normal2;
+        // WE ARE ALSO NOT ENSURING THAT THE TRIANGLE DOES NOT FOLD IN ON ITSELF IN THIS CASE
+        CorrectFacing(ptsFrmIntrsct[1], ptsFrmIntrsct[2], ptsFrmIntrsct[3], v3, v4, v5, normal2);
+        VerticesOut[idx + 3] = v3;
+        NormalsOut[idx + 3] = normal2;
+        VerticesOut[idx + 4] = v4;
+        NormalsOut[idx + 4] = normal2;
+        VerticesOut[idx + 5] = v5;
+        NormalsOut[idx + 5] = normal2;
+    }      
+
+} 
+
 [numthreads(64,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    // TODO: insert actual code here!
-    // int index = id.x
+    if (id.x >= tetraCount) return;
+
+    Tetrahedron tet = Tetrahedra[id.x];
+    Edge tetraEdges[6] = {
+        {tet.v0, tet.v1},
+        {tet.v0, tet.v2},
+        {tet.v0, tet.v3},
+        {tet.v1, tet.v2},
+        {tet.v2, tet.v3},
+        {tet.v3, tet.v1}
+    };
+
+    Intersect(tetraEdges);
 }

@@ -7,8 +7,6 @@ namespace Assets.Tetrahedralization {
 [RequireComponent(typeof(TetrahedralMeshSlicer))]
 public class CreateSimplex : MonoBehaviour
 {
-    [SerializeField] private Mesh m_Mesh;
-    [SerializeField] private Plane4D m_Plane;
 
     [SerializeField] private bool m_Debug4D;
 
@@ -17,7 +15,6 @@ public class CreateSimplex : MonoBehaviour
     [SerializeField] private Transform4D m_Transform4D;
 
     private TetrahedralMeshSlicer slicer;
-    private MeshFilter filter;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,9 +23,11 @@ public class CreateSimplex : MonoBehaviour
             var thing = gameObject.GetComponent<Transform4D>();
             m_Transform4D = thing == null ? gameObject.AddComponent<Transform4D>() : thing;
         }
-        slicer = GetComponent<TetrahedralMeshSlicer>();
-        slicer.TetraMesh = Simplex.GetTetrahedralMesh();
-        slicer.plane = GameManager.Instance.slicingPlane;
+        slicer = gameObject.GetComponent<TetrahedralMeshSlicer>();
+        slicer.SetMesh(Simplex.GetTetrahedralMesh());
+    } 
+
+    void OnEnable() {
     }
 
     // Update is called once per frame
