@@ -11,6 +11,7 @@ public class ManySimplicesDisplayCase : MonoBehaviour
     public int numSimplices = 100;
 
     public Vector4 bounds = new(10, 10, 10, 2);
+    public Transform anchorPos;
     public bool DestroyAndRegenerateChildren = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +24,7 @@ public class ManySimplicesDisplayCase : MonoBehaviour
         for (int i = 0; i < numSimplices; i++) {
             GameObject simplex = new GameObject("Simplex " + i);
             var trans = simplex.AddComponent<Transform4D>();
-            trans.Position = new Vector4(Random.value * bounds.x, Random.value * bounds.y, Random.value * bounds.z, Random.value * bounds.w);
+            trans.Position = (Vector4) anchorPos.position + new Vector4(Random.value * bounds.x, Random.value * bounds.y, Random.value * bounds.z, Random.value * bounds.w);
             trans.Rotation = new Euler4 {
                 XY = Random.value * 360,
                 YZ = Random.value * 360,
@@ -33,7 +34,7 @@ public class ManySimplicesDisplayCase : MonoBehaviour
                 ZW = Random.value * 360
             };
             if (i % 3 == 0) {
-                trans.Scale = new Vector4(Random.value + 0.6f, Random.value + 0.6f, Random.value + 0.7f, Random.value + 0.5f);
+                trans.Scale = new Vector4(Random.value + 0.6f, Random.value + 0.6f, Random.value + 0.7f, Random.value + 0.5f) * 0.25f;
             } else
             {
                 trans.Scale = new Vector4(Random.value * 0.4f, Random.value * 0.4f, Random.value * 0.4f, Random.value + 0.5f);
