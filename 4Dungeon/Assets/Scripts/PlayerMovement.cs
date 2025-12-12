@@ -68,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        RotateCamera();
+        
         RaycastHit hitGround;
         onGround = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out hitGround, playerHeight * 0.5f + 0.3f, whatIsGround);
         rb.linearDamping = onGround ? groundDrag : 0f;
@@ -144,8 +146,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RotateCamera();
-
         if (isGroundPounding && !onGround)
         {
             rb.AddForce(Vector3.down * groundPoundForce, ForceMode.Force);
