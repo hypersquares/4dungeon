@@ -13,8 +13,8 @@ public class TetrahedralMeshSlicer : MonoBehaviour
 
     [SerializeField] private Material material;
 
-    [SerializeField] private Color m_baseColor = Color.red;
-    [SerializeField] private Color m_FarColor = Color.black;
+    [SerializeField] public Color m_baseColor = Color.red;
+    [SerializeField] public Color m_FarColor = Color.black;
     ComputeShader shad;
     int kernelIndex; 
 
@@ -70,6 +70,10 @@ public class TetrahedralMeshSlicer : MonoBehaviour
 
     void Update()
     {
+        if (TetraMesh == null) {
+            Debug.Log("no tetra mesh attached");
+            return;
+        }
         Slice();
     }
 
@@ -86,7 +90,13 @@ public class TetrahedralMeshSlicer : MonoBehaviour
         argsBuffer.SetData(args);
         // We will update _Args[0] (vertex count) from inside the compute shader, thus keeping all data on GPU.
         shad.SetBuffer(kernelIndex, "_Args", argsBuffer);
-            
+
+        // Rebind buffers each frame since compute shader is shared across instances
+        shad.SetBuffer(kernelIndex, "Vertices", vertsBuff);
+        shad.SetBuffer(kernelIndex, "Tetrahedra", tetrsBuff);
+        shad.SetBuffer(kernelIndex, "VerticesOut", vOutBuff);
+        shad.SetBuffer(kernelIndex, "NormalsOut", normsOutBuff);
+
         //uniforms
         shad.SetVector("planeNormal", GameManager.Instance.SlicingPlaneNormal);
         shad.SetVector("planePoint", GameManager.Instance.SlicingPlanePoint);

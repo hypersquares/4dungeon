@@ -1,7 +1,7 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSMain
 #define TETRA_NUM_EDGES 6
-#define EPS 1e-6
+#define EPS 1e-5
 
 struct Tetrahedron { 
     int v0, v1, v2, v3;
