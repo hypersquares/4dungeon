@@ -118,6 +118,15 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ResetPos"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d19ac23-2d7b-4844-9545-27fda12aa363"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -219,6 +228,17 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93f0d3a8-b741-435d-85f3-fac3498a4bea"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetPos"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -330,6 +350,7 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_ResetPos = m_Player.FindAction("ResetPos", throwIfNotFound: true);
         // myExtremePlayer
         m_myExtremePlayer = asset.FindActionMap("myExtremePlayer", throwIfNotFound: true);
         m_myExtremePlayer_Newaction = m_myExtremePlayer.FindAction("New action", throwIfNotFound: true);
@@ -417,6 +438,7 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_ResetPos;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -440,6 +462,10 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ResetPos".
+        /// </summary>
+        public InputAction @ResetPos => m_Wrapper.m_Player_ResetPos;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -475,6 +501,9 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @ResetPos.started += instance.OnResetPos;
+            @ResetPos.performed += instance.OnResetPos;
+            @ResetPos.canceled += instance.OnResetPos;
         }
 
         /// <summary>
@@ -495,6 +524,9 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @ResetPos.started -= instance.OnResetPos;
+            @ResetPos.performed -= instance.OnResetPos;
+            @ResetPos.canceled -= instance.OnResetPos;
         }
 
         /// <summary>
@@ -717,6 +749,13 @@ public partial class @PlayerActionsMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ResetPos" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnResetPos(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "myExtremePlayer" which allows adding and removing callbacks.

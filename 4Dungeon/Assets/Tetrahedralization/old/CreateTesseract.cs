@@ -4,11 +4,11 @@ namespace Assets.Tetrahedralization.Old
 {
  
 [ExecuteInEditMode]
-public class CreateSimplex : CreatePolytope
+public class CreateTesseract : CreatePolytope
 {
     public override TetrahedralMesh GetMesh()
     {
-        return new(Simplex.GetTetrahedra(), m_Transform4D);
+        return new(Tesseract.GetTetrahedra(), m_Transform4D);
     }
    
 }

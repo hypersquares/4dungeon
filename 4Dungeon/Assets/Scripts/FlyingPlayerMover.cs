@@ -5,10 +5,10 @@ using UnityEngine;
 public class FlyingPlayerMover : MonoBehaviour
 {
     [Header("Levitation Movement")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float verticalSpeed = 5f;
-    [SerializeField] private float wSpeed = 0.1f;
-    [SerializeField] private float drag = 5f;
+    [SerializeField] private float wSpeed = 0.2f;
+    [SerializeField] private float drag = 1f;
     [SerializeField] private float seconds_till_desired = 0.1f;
 
     private Rigidbody rb;
