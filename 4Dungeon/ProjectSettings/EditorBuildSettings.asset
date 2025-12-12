@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RealScenes/Enterance.unity
     guid: fe2869e9f2a737e4ebd7355626e2041c
+  - enabled: 1
+    path: Assets/Scenes/RealScenes/OpenSpace.unity
+    guid: 0417052e1176f394491abc87748b748e
+  - enabled: 1
+    path: Assets/Scenes/RealScenes/Maze.unity
+    guid: 1db509d9972cfc3438f9941475114148
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

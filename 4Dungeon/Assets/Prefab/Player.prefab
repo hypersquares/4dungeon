@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   moveSpeed: 0.7
-  wSpeed: 0.01
+  wSpeed: 0.05
   groundDrag: 3
   jumpForce: 10
   jumpCooldown: 1
