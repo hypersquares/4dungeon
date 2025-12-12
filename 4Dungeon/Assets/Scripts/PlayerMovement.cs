@@ -72,8 +72,6 @@ public class PlayerMovement : MonoBehaviour
 
         isGroundPounding = Keyboard.current.leftShiftKey.isPressed;
 
-        MovePlayer();
-        HandleCameraBob();
     }
 
     private void RotateCamera()
@@ -104,17 +102,17 @@ public class PlayerMovement : MonoBehaviour
             float targetRoll = Mathf.Sin(halfTime) * bobRollAmplitude * speedMultiplier;
             float targetHorizontal = Mathf.Sin(halfTime + Mathf.PI * 0.5f) * bobHorizontalAmplitude * speedMultiplier;
             
-            currentBobOffset = Mathf.Lerp(currentBobOffset, targetBob, Time.deltaTime * bobSmoothing);
-            currentBobRoll = Mathf.Lerp(currentBobRoll, targetRoll, Time.deltaTime * bobSmoothing);
-            currentBobHorizontal = Mathf.Lerp(currentBobHorizontal, targetHorizontal, Time.deltaTime * bobSmoothing);
+            currentBobOffset = Mathf.Lerp(currentBobOffset, targetBob, Time.fixedDeltaTime * bobSmoothing);
+            currentBobRoll = Mathf.Lerp(currentBobRoll, targetRoll, Time.fixedDeltaTime * bobSmoothing);
+            currentBobHorizontal = Mathf.Lerp(currentBobHorizontal, targetHorizontal, Time.fixedDeltaTime * bobSmoothing);
             
-            bobTimer += Time.deltaTime;
+            bobTimer += Time.fixedDeltaTime;
         }
         else
         {
-            currentBobOffset = Mathf.Lerp(currentBobOffset, 0f, Time.deltaTime * bobSmoothing);
-            currentBobRoll = Mathf.Lerp(currentBobRoll, 0f, Time.deltaTime * bobSmoothing);
-            currentBobHorizontal = Mathf.Lerp(currentBobHorizontal, 0f, Time.deltaTime * bobSmoothing);
+            currentBobOffset = Mathf.Lerp(currentBobOffset, 0f, Time.fixedDeltaTime * bobSmoothing);
+            currentBobRoll = Mathf.Lerp(currentBobRoll, 0f, Time.fixedDeltaTime * bobSmoothing);
+            currentBobHorizontal = Mathf.Lerp(currentBobHorizontal, 0f, Time.fixedDeltaTime * bobSmoothing);
             bobTimer = 0f;
         }
         
@@ -139,6 +137,8 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = new Vector3(horizontalVelocity.x, rb.linearVelocity.y, horizontalVelocity.z);
             }
         }
+        MovePlayer();
+        HandleCameraBob();
     }
 
     public void OnMove(InputValue value)
@@ -169,13 +169,13 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         float wMove = moveInput.y;
-        GameManager.Instance.SlicingPlaneOffset += wMove * wSpeed;
+        GameManager.Instance.SlicingPlaneOffset += wMove * wSpeed * (1/Time.fixedDeltaTime);
         Vector3 moveDirection = transform.right * moveInput.x + transform.forward * moveInput.z;
 
         float multiplier = isGroundPounding ? 
             groundPoundMovementReduction : (onGround ? 1f : airMultiplier);
         
-        rb.AddForce(moveDirection * moveSpeed * multiplier, ForceMode.Force);
+        rb.AddForce(moveDirection * moveSpeed * multiplier * (1 / Time.fixedDeltaTime), ForceMode.Force);
     }
 
     private void Jump()

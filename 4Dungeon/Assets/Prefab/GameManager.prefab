@@ -49,4 +49,4 @@ MonoBehaviour:
   slicingPlane:
     m_Normal: {x: 0, y: 0, z: 0, w: 1}
     m_BasePoint: {x: 0, y: 0, z: 0, w: 0}
-    m_Offset: 0
+    m_Offset: -9.25

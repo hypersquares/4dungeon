@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 4678501}
   - component: {fileID: 4678500}
   - component: {fileID: 4678499}
+  - component: {fileID: 4678503}
   m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -230,6 +231,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4678503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c429b95c7aafa646852beb2b3f17e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  speed: 2
+  distance: 5
 --- !u!43 &5494356
 Mesh:
   m_ObjectHideFlags: 0
@@ -2368,46 +2383,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: jumpForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: moveSpeed
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: groundDrag
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: maxAirSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: bobAmplitude
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: airMultiplier
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: bobRollAmplitude
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: groundPoundForce
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: bobHorizontalAmplitude
-      value: -0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4051985470055450535, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: groundPoundMovementReduction
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 4950577905367043602, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2451,14 +2426,6 @@ PrefabInstance:
     - target: {fileID: 5522854723974712369, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7744052335022184882, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: jumpForce
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7744052335022184882, guid: abfd263471d67074e97e6ef2db53974d, type: 3}
-      propertyPath: spawnPoint.y
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
