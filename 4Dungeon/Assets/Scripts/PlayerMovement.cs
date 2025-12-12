@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Camera Look")]
     public float mouseSensitivity = 50f;
+    public float lookAcceleration = 0.15f;
+    public float lookDeceleration = 0.2f;
+    public float maxLookSpeed = 200f;
     public Transform cameraTransform;
 
     [Header("Camera Bob")]
@@ -45,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     public float bobSmoothing = 10f;
 
     private Vector2 lookInput;
+    private Vector2 currentLookVelocity;
     private float yaw;
     private float pitch;
     private Vector3 originalCameraLocalPosition;
@@ -64,8 +68,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        RotateCamera();
-
         RaycastHit hitGround;
         onGround = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out hitGround, playerHeight * 0.5f + 0.3f, whatIsGround);
         rb.linearDamping = onGround ? groundDrag : 0f;
@@ -76,10 +78,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotateCamera()
     {
-        Vector2 mouseMove = lookInput * mouseSensitivity;
+        Vector2 targetLookVelocity = lookInput * mouseSensitivity;
+        
+        if (targetLookVelocity.magnitude > 0.01f)
+        {
+            currentLookVelocity = Vector2.Lerp(
+                currentLookVelocity, 
+                targetLookVelocity, 
+                lookAcceleration * Time.deltaTime
+            );
+            
+            Mathf.Clamp(currentLookVelocity.magnitude, 0, maxLookSpeed);
+        }
+        else
+        {
+            currentLookVelocity = Vector2.Lerp(
+                currentLookVelocity, 
+                Vector2.zero, 
+                lookDeceleration * Time.deltaTime
+            );
+        }
 
-        yaw += mouseMove.x;
-        pitch -= mouseMove.y;
+        yaw += currentLookVelocity.x;
+        pitch -= currentLookVelocity.y;
 
         pitch = Mathf.Clamp(pitch, -90f, 90f);
 
@@ -87,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         cameraTransform.localRotation = Quaternion.Euler(pitch, 0f, currentBobRoll);
     }
 
-    private void HandleCameraBob()
+    private void CameraBob()
     {
         float speed = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z).magnitude;
         bool isMoving = speed > 0.1f && onGround && !isGroundPounding;
@@ -123,6 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        RotateCamera();
+
         if (isGroundPounding && !onGround)
         {
             rb.AddForce(Vector3.down * groundPoundForce, ForceMode.Force);
@@ -138,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         MovePlayer();
-        HandleCameraBob();
+        CameraBob();
     }
 
     public void OnMove(InputValue value)
@@ -169,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         float wMove = moveInput.y;
-        GameManager.Instance.SlicingPlaneOffset += wMove * wSpeed * (1/Time.fixedDeltaTime);
+        GameManager.Instance.SlicingPlaneOffset += wMove * wSpeed;
         Vector3 moveDirection = transform.right * moveInput.x + transform.forward * moveInput.z;
 
         float multiplier = isGroundPounding ? 
