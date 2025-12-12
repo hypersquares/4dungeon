@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OpeningScene.unity
+    path: Assets/Scenes/RealScenes/OpeningScene.unity
     guid: 7ca279b21d7e0484698492d1a7382cc2
   - enabled: 1
-    path: Assets/Scenes/Museum.unity
+    path: Assets/Scenes/RealScenes/Enterance.unity
     guid: fe2869e9f2a737e4ebd7355626e2041c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
